@@ -1,3 +1,4 @@
+using Lean.Pool;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,14 @@ public class PatientEnter : MonoBehaviour
 
     public Transform patientEnterPoint;
 
+    public bool patientExist;
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0) && !patientExist)
         {
+            patientExist = true;
             GeneratePatient();
         }
     }
@@ -22,8 +26,7 @@ public class PatientEnter : MonoBehaviour
     {
         int randPatient = Random.Range(0, patientPrefabs.Length);
 
-        //여기 Leanpool로 고치기
-        Instantiate(patientPrefabs[randPatient], transform);
+        LeanPool.Spawn(patientPrefabs[randPatient], transform);
 
         foreach (var triggers in patientTriggers)
         {

@@ -1,3 +1,5 @@
+using Lean.Pool;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,15 +9,24 @@ using UnityEngine.Rendering;
 public class Patient : MonoBehaviour
 {
     Animator animator;
+    PatientEnter patientExistence;
+
+    public DiseaseCode diseaseCode;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        patientExistence = GameObject.Find("PatientEnter").GetComponent<PatientEnter>();
     }
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
+        //int randNum = UnityEngine.Random.Range(0, 9);
+        int randNum = 0;
+        diseaseCode.disease = (DiseaseCode.Disease)randNum;
+        //playerChoice.patientDiseaseCode.disease = diseaseCode.disease;
+
         animator.SetTrigger("Comein");
     }
 
@@ -24,8 +35,6 @@ public class Patient : MonoBehaviour
         if (other.gameObject.name == "TurnPatientTrigger")
         {
             gameObject.transform.forward = Vector3.right * -1;
-
-            other.enabled = false;
         }
 
         if (other.gameObject.name == "SitPatientTrigger")
@@ -33,24 +42,21 @@ public class Patient : MonoBehaviour
             gameObject.transform.forward = Vector3.forward * -1;
 
             animator.SetTrigger("Sit");
-
-            other.enabled = false;
         }
 
         if (other.gameObject.name == "OutPatientTrigger")
         {
             gameObject.transform.forward = Vector3.forward;
-
-            other.enabled = false;
         }
 
         if (other.gameObject.name == "PatientExitTrigger")
         {
-            // LeanPool로 고치기
-            Destroy(gameObject);
+            LeanPool.Despawn(gameObject);
 
-            other.enabled = false;
+            patientExistence.patientExist = false;
         }
+
+        other.enabled = false;
     }
 
     private void Update()
@@ -68,6 +74,12 @@ public class Patient : MonoBehaviour
     private void StartTalking()
     {
         animator.SetTrigger("Talk");
+
+        if (dialog.instance.dialog_read((int)diseaseCode.disease) && !dialog.instance.running)
+        {
+            IEnumerator dialog_co = dialog.instance.dialog_system_start((int)diseaseCode.disease, PlayerChoice.Instance.PopupFirstChoice);
+            StartCoroutine(dialog_co);
+        }
     }
 
     private IEnumerator GetOut()
