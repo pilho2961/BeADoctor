@@ -17,6 +17,8 @@ public class PlayerChoice : MonoBehaviour
     public DiseaseCode randDiseaseCode;
     public DiseaseCode patientDiseaseCode;
 
+    DiseaseInfo diseaseInfo;
+
     private void Awake()
     {
         Instance = this;
@@ -30,7 +32,6 @@ public class PlayerChoice : MonoBehaviour
         patientDiseaseCode.disease = currentPatient.GetComponent<Patient>().diseaseCode.disease;
 
         playerChoice.SetActive(true);
-        //print("액션 콜백");
 
         List<GameObject> buttonList = new List<GameObject>();
 
@@ -40,22 +41,29 @@ public class PlayerChoice : MonoBehaviour
             buttonList.Add(choiceButton);
         }
 
-        int randNum = UnityEngine.Random.Range(0, buttonList.Count);
-        buttonList[randNum].GetComponentInChildren<TextMeshProUGUI>().text = patientDiseaseCode.disease.ToString();
+        int randNum = UnityEngine.Random.Range(0, buttonList.Count - 1);
+        diseaseInfo = DiseaseDictionary.GetDiseaseInfo(patientDiseaseCode.disease);
+        buttonList[randNum].GetComponentInChildren<TextMeshProUGUI>().text = $"{patientDiseaseCode.disease}\n{diseaseInfo.koreanDiseaseName}";
 
-        int randDisease = UnityEngine.Random.Range(0, 9);
-        randDiseaseCode.disease = (DiseaseCode.Disease)randDisease;
+
+        do
+        {
+            int randDisease = UnityEngine.Random.Range(0, 9);
+            randDiseaseCode.disease = (DiseaseCode.Disease)randDisease;
+
+        } while (patientDiseaseCode == randDiseaseCode);
+
+
+        diseaseInfo = DiseaseDictionary.GetDiseaseInfo(randDiseaseCode.disease);
 
         if (randNum == 0)
         {
-            buttonList[1].GetComponentInChildren<TextMeshProUGUI>().text = randDiseaseCode.disease.ToString();
+            buttonList[1].GetComponentInChildren<TextMeshProUGUI>().text = $"{randDiseaseCode.disease}\n{diseaseInfo.koreanDiseaseName}";
         }
         else
         {
-            buttonList[0].GetComponentInChildren<TextMeshProUGUI>().text = randDiseaseCode.disease.ToString();
+            buttonList[0].GetComponentInChildren<TextMeshProUGUI>().text = $"{randDiseaseCode.disease}\n{diseaseInfo.koreanDiseaseName}";
         }
-
-        print(buttonList.Count);
 
         buttonList[2].GetComponentInChildren<TextMeshProUGUI>().text = "추가적으로 증상 묻기";
     }
