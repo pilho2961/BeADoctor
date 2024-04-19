@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     float xRotation = 0f;
     float yRotation = 0f;
 
-    bool onEscalator;
+    public bool interacting;
     public Transform escalatorEnterance;
 
     void Start()
@@ -23,14 +23,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!onEscalator)
+        if (!interacting)
         {
             Move();
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            RideEscalator();
         }
     }
 
@@ -61,20 +56,20 @@ public class Player : MonoBehaviour
         playerBody.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.World);
     }
 
-    private void RideEscalator()
+    public void RideEscalator()
     {
-        onEscalator = true;
-
-        transform.GetComponent<BoxCollider>().enabled = onEscalator;
-        transform.GetComponent<NavMeshAgent>().enabled = !onEscalator;
-        transform.position = new Vector3(escalatorEnterance.position.x, escalatorEnterance.position.y, escalatorEnterance.position.z + 1);
+        interacting = true;
+        transform.GetComponent<NavMeshAgent>().enabled = !interacting;
+        
+        Vector3 ridePoint = new Vector3(escalatorEnterance.position.x, escalatorEnterance.position.y + 4, escalatorEnterance.position.z);
+        
+        transform.position = ridePoint;
 
         transform.forward = escalatorEnterance.right;
     }
 
-    private void OffEscalator()
+    public void OffEscalator()
     {
-
-        onEscalator = false;
+        interacting = false;
     }
 }
