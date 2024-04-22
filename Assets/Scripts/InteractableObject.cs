@@ -8,10 +8,6 @@ public class InteractableObject : MonoBehaviour
 {
     protected bool onPopup;
 
-    private void Awake()
-    {
-    }
-
     private void Start()
     {
         onPopup = false;

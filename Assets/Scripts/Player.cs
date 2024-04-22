@@ -16,12 +16,10 @@ public class Player : MonoBehaviour
     public Transform escalatorInteractPoint;
 
     Rigidbody rb;
-    //Collider playerCollider;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        //playerCollider = GetComponent<Collider>();
     }
 
     void Start()
