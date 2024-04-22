@@ -47,7 +47,7 @@ public class EscalatorInteraction : InteractableObject
 
             if (!player.interacting)
             {
-                player.escalatorEnterance = escalatorEnterance;
+                player.escalatorInteractPoint = escalatorEnterance;
                 player.RideEscalator();
                 PopdownInteraction();
             }

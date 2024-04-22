@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    public LayerMask playerMask;
     protected bool onPopup;
 
     private void Awake()

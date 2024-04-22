@@ -13,7 +13,16 @@ public class Player : MonoBehaviour
     float yRotation = 0f;
 
     public bool interacting;
-    public Transform escalatorEnterance;
+    public Transform escalatorInteractPoint;
+
+    Rigidbody rb;
+    //Collider playerCollider;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        //playerCollider = GetComponent<Collider>();
+    }
 
     void Start()
     {
@@ -59,17 +68,28 @@ public class Player : MonoBehaviour
     public void RideEscalator()
     {
         interacting = true;
+        rb.isKinematic = false;
         transform.GetComponent<NavMeshAgent>().enabled = !interacting;
         
-        Vector3 ridePoint = new Vector3(escalatorEnterance.position.x, escalatorEnterance.position.y + 4, escalatorEnterance.position.z);
+        Vector3 ridePoint = new Vector3(escalatorInteractPoint.position.x, escalatorInteractPoint.position.y + 4, escalatorInteractPoint.position.z);
         
         transform.position = ridePoint;
+        rb.position = transform.position;
 
-        transform.forward = escalatorEnterance.right;
+        transform.forward = escalatorInteractPoint.right;
     }
 
     public void OffEscalator()
     {
         interacting = false;
+        rb.isKinematic = true;
+        Vector3 ridePoint = new Vector3(escalatorInteractPoint.position.x, escalatorInteractPoint.position.y + 1, escalatorInteractPoint.position.z + 4);
+
+        transform.position = ridePoint;
+        rb.position = transform.position;
+
+        transform.forward = escalatorInteractPoint.up;
+
+        transform.GetComponent<NavMeshAgent>().enabled = !interacting;
     }
 }
