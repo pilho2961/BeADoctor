@@ -34,6 +34,10 @@ public class Player : MonoBehaviour
         {
             Move();
         }
+        else
+        {
+            OnlyRotating();
+        }
     }
 
     private void Move()
@@ -61,6 +65,19 @@ public class Player : MonoBehaviour
 
         // Apply movement
         playerBody.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.World);
+    }
+
+    private void OnlyRotating()
+    {
+        // Mouse Input
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+        yRotation += mouseX;
+
+        transform.localRotation = Quaternion.Euler(0f, yRotation, 0f);
+
+        playerBody.Rotate(Vector3.right * mouseY);
     }
 
     public void RideEscalator()

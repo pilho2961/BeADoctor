@@ -21,24 +21,6 @@ public class EscalatorInteraction : InteractableObject
         }
     }
 
-    protected override void PopupInteraction()
-    {
-        if (!onPopup)
-        {
-            print("상호작용하려면 G키를 누르세요.");
-            onPopup = true;
-        }
-    }
-
-    protected override void PopdownInteraction()
-    {
-        if (onPopup)
-        {
-            print("팝업 해체");
-            onPopup = false;
-        }
-    }
-
     protected override void Interact()
     {
         if (Input.GetKeyDown(KeyCode.G))

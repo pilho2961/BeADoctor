@@ -15,12 +15,20 @@ public class InteractableObject : MonoBehaviour
 
     protected virtual void PopupInteraction()
     {
-
+        if (!onPopup)
+        {
+            print("상호작용하려면 G키를 누르세요.");
+            onPopup = true;
+        }
     }
 
     protected virtual void PopdownInteraction()
     {
-
+        if (onPopup)
+        {
+            print("팝업 해체");
+            onPopup = false;
+        }
     }
 
     protected virtual void Interact()

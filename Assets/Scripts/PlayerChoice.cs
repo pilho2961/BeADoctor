@@ -26,6 +26,8 @@ public class PlayerChoice : MonoBehaviour
 
     public void PopupFirstChoice()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+
         currentPatient = GameObject.Find("PatientEnter").transform.GetChild(0).gameObject;
         print(currentPatient.name);
         print(currentPatient.GetComponent<Patient>().diseaseCode.disease.ToString());
@@ -66,5 +68,20 @@ public class PlayerChoice : MonoBehaviour
         }
 
         buttonList[2].GetComponentInChildren<TextMeshProUGUI>().text = "추가적으로 증상 묻기";
+    }
+
+    public void SelectCorrectDisease()
+    {
+        // 사회적 평판 업
+    }
+
+    public void SelectWrongDisease()
+    {
+        // 사회적 평판 다운
+    }
+
+    public void SelectAdditionalQuestion()
+    {
+        // 추가적 대화 진행
     }
 }

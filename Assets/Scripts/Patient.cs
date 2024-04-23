@@ -35,11 +35,13 @@ public class Patient : MonoBehaviour
         if (other.gameObject.name == "TurnPatientTrigger")
         {
             gameObject.transform.forward = Vector3.right * -1;
+            other.enabled = false;
         }
 
         if (other.gameObject.name == "SitPatientTrigger")
         {
             gameObject.transform.forward = Vector3.forward * -1;
+            other.enabled = false;
 
             animator.SetTrigger("Sit");
         }
@@ -47,16 +49,15 @@ public class Patient : MonoBehaviour
         if (other.gameObject.name == "OutPatientTrigger")
         {
             gameObject.transform.forward = Vector3.forward;
+            other.enabled = false;
         }
 
         if (other.gameObject.name == "PatientExitTrigger")
         {
+            other.enabled = false;
             LeanPool.Despawn(gameObject);
-
             patientExistence.patientExist = false;
         }
-
-        other.enabled = false;
     }
 
     private void Update()
