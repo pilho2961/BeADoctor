@@ -30,6 +30,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (IntroDialogManager.Instance.dialogIsPlaying)
+        {
+            return;
+        }
+
         if (!interacting)
         {
             Move();
