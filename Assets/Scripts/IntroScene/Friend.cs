@@ -6,6 +6,7 @@ public class Friend : MonoBehaviour
 {
     Player player;
     Animator animator;
+    Collider friendCollider;
     bool wave;
     bool talking;
     private bool playerInRange;
@@ -18,6 +19,7 @@ public class Friend : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         animator = GetComponent<Animator>();
+        friendCollider = GetComponent<Collider>();
         playerInRange = false;
     }
 
@@ -57,6 +59,18 @@ public class Friend : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            OnDialogueEnd();
         }
+    }
+
+    private void OnDialogueEnd()
+    {
+        if (IntroDialogManager.GetInstance().IsDialogEndReached())
+        {
+            Debug.Log("Dialogue completed for Friend.");
+            friendCollider.enabled = false;
+            PlayerStatUI.instance.UpdateGauge();
+        }
+        // Call your other method here
     }
 }

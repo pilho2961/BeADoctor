@@ -25,10 +25,10 @@ public class IntroDialogManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] choicesText;
 
     private Story currentStory;
+    private string currentStoryNPCName;
     private string playerName;
 
     public bool dialogIsPlaying { get; private set; }
-    private bool npcTalking;
 
     private void Awake()
     {
@@ -59,10 +59,7 @@ public class IntroDialogManager : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
-            if (npcTalking)
-            {
-                DisplayChoices();
-            }
+            ContinueStory();
         }
     }
 
@@ -72,7 +69,8 @@ public class IntroDialogManager : MonoBehaviour
         dialogIsPlaying = true;
         dialogPanel.SetActive(true);
 
-        dialogName.text = name;
+        currentStoryNPCName = name;
+        dialogName.text = currentStoryNPCName;
 
         ContinueStory(callback);
     }
@@ -82,7 +80,11 @@ public class IntroDialogManager : MonoBehaviour
         if (currentStory.canContinue)
         {
             dialogContent.text = currentStory.Continue();
-            npcTalking = true;
+            dialogName.text = currentStoryNPCName;
+        }
+        else if (!currentStory.canContinue && !IsDialogEndReached())
+        {
+            DisplayChoices();
         }
         else
         {
@@ -104,8 +106,8 @@ public class IntroDialogManager : MonoBehaviour
     private void DisplayChoices(Action callback = null)
     {
         dialogContent.text = "";
-        dialogName.text = "플레이어";
-        npcTalking = false;
+        playerName = "플레이어";        // 이 부분을 파이어베이스 데이터로 닉네임
+        dialogName.text = playerName;
 
         List<Choice> currentChoices = currentStory.currentChoices;
         if (currentChoices.Count < 1) { ExitDialogMode(callback); return; }
@@ -143,6 +145,7 @@ public class IntroDialogManager : MonoBehaviour
     public void MakeChoice(int choiceIndex)
     {
         print("고른 선택지 index : " + choiceIndex);
+        ResultOfChoice(choiceIndex);
 
         foreach (GameObject choice in choices)
         {
@@ -151,5 +154,31 @@ public class IntroDialogManager : MonoBehaviour
 
         currentStory.ChooseChoiceIndex(choiceIndex);
         ContinueStory();
+    }
+
+    //
+    public void ResultOfChoice(int choiceIndex)
+    {
+        int randVal = UnityEngine.Random.Range(1, 20);
+
+        if (choiceIndex == 0)       // 공격적인 선택
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("Stress", randVal);
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("SocialReputation", -randVal);
+        }
+        else if (choiceIndex == 1)      // 우호적인 선택
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("Stress", -randVal);
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("SocialReputation", randVal);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public bool IsDialogEndReached()
+    {
+        return currentStory != null && !currentStory.canContinue && currentStory.currentChoices.Count == 0;
     }
 }
