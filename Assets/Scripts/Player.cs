@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public float moveSpeed = 2f;
 
     float xRotation = 0f;
-    float yRotation = 0f;
+    float yRotation = 180f;
 
     public bool interacting;
     public Transform escalatorInteractPoint;
@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     void Update()
@@ -56,8 +55,8 @@ public class Player : MonoBehaviour
         yRotation += mouseX;
 
         transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
-        playerBody.Rotate(Vector3.up * mouseX);
-        playerBody.Rotate(Vector3.right * mouseY);
+        //playerBody.Rotate(Vector3.up * mouseX);
+        //playerBody.Rotate(Vector3.right * mouseY);  // 이 두 개 왜 필요한지 모르겠음
 
         // Keyboard Input
         float horizontalInput = Input.GetAxis("Horizontal");

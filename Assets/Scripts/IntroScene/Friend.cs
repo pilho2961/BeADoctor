@@ -15,6 +15,9 @@ public class Friend : MonoBehaviour
     [Header("Ink JSON")]
     [SerializeField] private TextAsset inkJSON;
 
+    [Header("대화 후 생성할 포탈")]
+    [SerializeField] private GameObject portal;
+
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
@@ -70,6 +73,7 @@ public class Friend : MonoBehaviour
             Debug.Log("Dialogue completed for Friend.");
             friendCollider.enabled = false;
             PlayerStatUI.instance.UpdateGauge();
+            portal.SetActive(true);
         }
         // Call your other method here
     }

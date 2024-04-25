@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/FirstSceneOnlyPlayOnce.unity
+    guid: 8950c1900a8433747a77d03574cf01b1
+  - enabled: 1
+    path: Assets/Scenes/HospitalHallScene.unity
+    guid: bf3ae6f339ec511428d537d4c439a77d
+  - enabled: 1
     path: Assets/Scenes/OfficeScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}

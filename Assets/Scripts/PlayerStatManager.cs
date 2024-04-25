@@ -114,9 +114,10 @@ public class PlayerStatManager : MonoBehaviour
     {
         while (!GameManager.GetInstance.gameOver)
         {
+            yield return new WaitForSeconds(1);
             statValues[ValueType.Hunger.ToString()] -= 1;
             PlayerStatUI.instance.UpdateHungerGaugeOnly();
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
         }
     }
 }
