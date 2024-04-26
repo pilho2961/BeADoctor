@@ -51,7 +51,7 @@ public class dialog : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        dialog_obj = GameObject.Find("Canvas").transform.Find("Dialog").gameObject;
+        dialog_obj = GameObject.Find("CanvasWork").transform.Find("Dialog").gameObject;
     }
     public IEnumerator dialog_system_start(int index, Action callBack = null)//다이얼로그 출력 시작
     {

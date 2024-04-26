@@ -9,9 +9,9 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IntroDialogManager : MonoBehaviour
+public class NPCDialogManager : MonoBehaviour
 {
-    public static IntroDialogManager Instance;
+    public static NPCDialogManager Instance;
 
     [Header("Dialog UI")]
     [SerializeField] private GameObject dialogPanel;
@@ -39,7 +39,7 @@ public class IntroDialogManager : MonoBehaviour
         Instance = this;
     }
 
-    public static IntroDialogManager GetInstance() { return Instance; }
+    public static NPCDialogManager GetInstance() { return Instance; }
 
 
     // Start is called before the first frame update

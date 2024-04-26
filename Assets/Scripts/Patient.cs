@@ -13,6 +13,8 @@ public class Patient : MonoBehaviour
 
     public DiseaseCode diseaseCode;
 
+    public bool diagnoseDone;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -25,7 +27,6 @@ public class Patient : MonoBehaviour
         //int randNum = UnityEngine.Random.Range(0, 9);
         int randNum = 0;
         diseaseCode.disease = (DiseaseCode.Disease)randNum;
-        //playerChoice.patientDiseaseCode.disease = diseaseCode.disease;
 
         animator.SetTrigger("Comein");
     }
@@ -66,7 +67,7 @@ public class Patient : MonoBehaviour
         {
             StartTalking();
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Sitting Talking") && Input.GetKeyDown(KeyCode.Escape))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Sitting Talking") && diagnoseDone)
         {
             StartCoroutine(GetOut());
         }
@@ -85,6 +86,11 @@ public class Patient : MonoBehaviour
 
     private IEnumerator GetOut()
     {
+        IEnumerator dialog_co = dialog.instance.dialog_system_start(99);
+        StartCoroutine(dialog_co);
+
+        yield return new WaitUntil(() => !dialog.instance.running);
+
         animator.SetTrigger("Getout");
 
         yield return new WaitForSeconds(0.5f);
