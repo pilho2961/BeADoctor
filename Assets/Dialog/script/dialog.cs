@@ -90,7 +90,7 @@ public class dialog : MonoBehaviour
             });
         }
 
-        dialog_cycles[index].check_cycle_read = true;                   //해당 대화 그룹 읽음
+        //dialog_cycles[index].check_cycle_read = true;                   //해당 대화 그룹 읽음 -> 난 대화는 반복해야돼서 주석처리
         running = false;
 
         callBack?.Invoke();                                             // 코루틴이 끝날 때 callBack 함수 실행

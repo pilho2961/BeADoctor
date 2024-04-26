@@ -45,6 +45,7 @@ public class PlayerChoice : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             var choiceButton = LeanPool.Spawn(ChoiceButtonPrefab, playerChoice.transform.GetChild(0));
+            choiceButton.GetComponent<Button>().onClick.RemoveAllListeners();
             buttonList.Add(choiceButton);
         }
 
@@ -58,7 +59,7 @@ public class PlayerChoice : MonoBehaviour
             int randDisease = UnityEngine.Random.Range(0, 9);
             randDiseaseCode.disease = (DiseaseCode.Disease)randDisease;
 
-        } while (patientDiseaseCode == randDiseaseCode);
+        } while (patientDiseaseCode.disease == randDiseaseCode.disease);
 
 
         diseaseInfo = DiseaseDictionary.GetDiseaseInfo(randDiseaseCode.disease);
@@ -95,6 +96,7 @@ public class PlayerChoice : MonoBehaviour
         buttonList.Clear();
 
         currentPatient.GetComponent<Patient>().diagnoseDone = true;
+        currentPatient = null;
     }
 
     public void SelectWrongDisease()
@@ -114,6 +116,8 @@ public class PlayerChoice : MonoBehaviour
         buttonList.Clear();
 
         currentPatient.GetComponent<Patient>().diagnoseDone = true;
+        currentPatient = null;
+
     }
 
     public void SelectAdditionalQuestion()
@@ -162,7 +166,9 @@ public class PlayerChoice : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             var choiceButton = LeanPool.Spawn(ChoiceButtonPrefab, playerChoice.transform.GetChild(0));
+            choiceButton.GetComponent<Button>().onClick.RemoveAllListeners();
             buttonList.Add(choiceButton);
+
         }
 
         diseaseInfo = DiseaseDictionary.GetDiseaseInfo(patientDiseaseCode.disease);

@@ -24,8 +24,8 @@ public class Patient : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        //int randNum = UnityEngine.Random.Range(0, 9);
-        int randNum = 0;
+        int randNum = UnityEngine.Random.Range(0, 9);
+        //int randNum = 0;
         diseaseCode.disease = (DiseaseCode.Disease)randNum;
 
         animator.SetTrigger("Comein");
