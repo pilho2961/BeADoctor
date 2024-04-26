@@ -63,17 +63,13 @@ public class Patient : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartTalking();
-        }
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Sitting Talking") && diagnoseDone && !dialog.instance.running)
         {
             StartCoroutine(GetOut());
         }
     }
 
-    private void StartTalking()
+    public void StartTalking()
     {
         animator.SetTrigger("Talk");
 

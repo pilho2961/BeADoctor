@@ -26,7 +26,6 @@ public class DoctorChair : InteractableObject
             EndWorking();
             PopupEndWorking();
             LookupBook();
-
         }
     }
 
@@ -53,7 +52,7 @@ public class DoctorChair : InteractableObject
     {
         if (!onPopup)
         {
-            print("진료를 끝내려면 G키를 누르세요.");
+            print("진료를 끝내려면 G키를 누르세요.\n다음 환자를 부르려면 LMB(좌측 마우스버튼)를 클릭하세요.");
             onPopup = true;
         }
     }

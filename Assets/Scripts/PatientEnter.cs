@@ -12,10 +12,17 @@ public class PatientEnter : MonoBehaviour
 
     public bool patientExist;
 
+    public Player player;
+
+    private void Awake()
+    {
+        player = GameObject.Find("Player").GetComponent<Player>();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0) && !patientExist)
+        if (player.interacting && Input.GetMouseButton(0) && !patientExist)
         {
             patientExist = true;
             GeneratePatient();
