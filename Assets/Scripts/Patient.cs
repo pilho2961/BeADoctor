@@ -67,7 +67,7 @@ public class Patient : MonoBehaviour
         {
             StartTalking();
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Sitting Talking") && diagnoseDone)
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Sitting Talking") && diagnoseDone && !dialog.instance.running)
         {
             StartCoroutine(GetOut());
         }
@@ -86,8 +86,9 @@ public class Patient : MonoBehaviour
 
     private IEnumerator GetOut()
     {
-        IEnumerator dialog_co = dialog.instance.dialog_system_start(99);
+        IEnumerator dialog_co = dialog.instance.dialog_system_start(27);
         StartCoroutine(dialog_co);
+        diagnoseDone = false;
 
         yield return new WaitUntil(() => !dialog.instance.running);
 

@@ -27,20 +27,33 @@ public class DiseaseInfo
 {
     public string koreanDiseaseName { get; set; }
     public string description { get; set; }
+    public string ear { get; set; }
+    public string nose { get; set; }
+    public string throat { get; set; }
+
 }
 
 public static class DiseaseDictionary
 {
     private static readonly Dictionary<Disease, DiseaseInfo> diseaseInfoDict = new Dictionary<Disease, DiseaseInfo>()
     {
-        { Disease.Otitisexterna, new DiseaseInfo { koreanDiseaseName = "외이염", description = "외이염에 대한 설명" } },
+        { Disease.Otitisexterna, new DiseaseInfo { koreanDiseaseName = "외이염", description = "외이염에 대한 설명",
+            ear = "고막 주변부 부어오른 현상 발견", nose = "특이사항 없음", throat = "심하지 않은 상기도 염증 반응 발견" } },
+
         { Disease.Rhinitis, new DiseaseInfo { koreanDiseaseName = "비염", description = "비염에 대한 설명" } },
+
         { Disease.NasalSeptumDeviation, new DiseaseInfo { koreanDiseaseName = "비중격 이탈", description = "비중격 이탈에 대한 설명" } },
+
         { Disease.OtitisMedia, new DiseaseInfo { koreanDiseaseName = "중이염", description = "중이염에 대한 설명" } },
+
         { Disease.Tinnitus, new DiseaseInfo { koreanDiseaseName = "이명", description = "이명에 대한 설명" } },
+
         { Disease.NasalPolyps, new DiseaseInfo { koreanDiseaseName = "비용종", description = "비용종에 대한 설명" } },
+
         { Disease.VocalCordPolyps, new DiseaseInfo { koreanDiseaseName = "성대종", description = "성대종에 대한 설명" } },
+
         { Disease.Laryngitis, new DiseaseInfo { koreanDiseaseName = "후두염", description = "후두염에 대한 설명" } },
+
         { Disease.LaryngealCancer, new DiseaseInfo { koreanDiseaseName = "후두암", description = "후두암에 대한 설명" } }
     };
 

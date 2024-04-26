@@ -88,8 +88,13 @@ public class PlayerChoice : MonoBehaviour
 
 
         askedCount = 0;
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            LeanPool.Despawn(buttonList[i]);
+        }
         buttonList.Clear();
-        LeanPool.DespawnAll();
+
+        currentPatient.GetComponent<Patient>().diagnoseDone = true;
     }
 
     public void SelectWrongDisease()
@@ -102,8 +107,13 @@ public class PlayerChoice : MonoBehaviour
         playerChoice.SetActive(false);
 
         askedCount = 0;
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            LeanPool.Despawn(buttonList[i]);
+        }
         buttonList.Clear();
-        LeanPool.DespawnAll();
+
+        currentPatient.GetComponent<Patient>().diagnoseDone = true;
     }
 
     public void SelectAdditionalQuestion()
@@ -114,7 +124,7 @@ public class PlayerChoice : MonoBehaviour
         playerChoice.SetActive(false);
         askedCount++;
 
-        if (askedCount >= 2)
+        if (askedCount == 2)
         {
             CheckupPart();
         }
@@ -155,16 +165,55 @@ public class PlayerChoice : MonoBehaviour
             buttonList.Add(choiceButton);
         }
 
+        diseaseInfo = DiseaseDictionary.GetDiseaseInfo(patientDiseaseCode.disease);
+
         buttonList[3].GetComponentInChildren<TextMeshProUGUI>().text = "귀 검사";
-        buttonList[3].GetComponent<Button>().onClick.AddListener(TestMethod);
+        buttonList[3].GetComponent<Button>().onClick.AddListener(EarTest);
         buttonList[4].GetComponentInChildren<TextMeshProUGUI>().text = "코 검사";
-        buttonList[4].GetComponent<Button>().onClick.AddListener(TestMethod);
+        buttonList[4].GetComponent<Button>().onClick.AddListener(NoseTest);
         buttonList[5].GetComponentInChildren<TextMeshProUGUI>().text = "목 검사";
-        buttonList[5].GetComponent<Button>().onClick.AddListener(TestMethod);
+        buttonList[5].GetComponent<Button>().onClick.AddListener(ThroatTest);
     }
 
-    private void TestMethod()
+    private void EarTest()
     {
-        print("검사 완료");
+        playerChoice.SetActive(false);
+        dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].content = $"{diseaseInfo.ear}";
+        IEnumerator dialog_co = dialog.instance.dialog_system_start(((int)patientDiseaseCode.disease + (9 * askedCount)), FinalSelect);
+        StartCoroutine(dialog_co);
+    }
+
+    private void NoseTest()
+    {
+        playerChoice.SetActive(false);
+        dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].content = $"{diseaseInfo.nose}";
+        IEnumerator dialog_co = dialog.instance.dialog_system_start(((int)patientDiseaseCode.disease + (9 * askedCount)), FinalSelect);
+        StartCoroutine(dialog_co);
+    }
+
+    private void ThroatTest()
+    {
+        playerChoice.SetActive(false);
+        dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].content = $"{diseaseInfo.throat}";
+        IEnumerator dialog_co = dialog.instance.dialog_system_start(((int)patientDiseaseCode.disease + (9 * askedCount)), FinalSelect);
+        StartCoroutine(dialog_co);
+    }
+
+    private void FinalSelect()
+    {
+        playerChoice.SetActive(true);
+
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            if (i < 2)
+            {
+                buttonList[i].SetActive(true);
+            }
+            else
+            {
+                buttonList[i].SetActive(false);
+            }
+        }
     }
 }
+
