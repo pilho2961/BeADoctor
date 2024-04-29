@@ -90,8 +90,6 @@ namespace ClockSample
             // Increment elapsed seconds based on flow speed
             //elapsedSeconds += Mathf.RoundToInt(Time.deltaTime * flowSpeed);
             elapsedSeconds += Time.deltaTime * flowSpeed;
-            print(Time.deltaTime);
-            print(elapsedSeconds);
 
             // Calculate overflow minutes and hours
             int overflowMinutes = (int)(elapsedSeconds / 60);

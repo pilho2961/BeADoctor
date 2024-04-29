@@ -15,6 +15,7 @@ public class Patient : MonoBehaviour
     DiseaseInfo diseaseInfo;
 
     public bool diagnoseDone;
+    private float timeSpentToDiagnose;
 
     private void Awake()
     {
@@ -32,6 +33,7 @@ public class Patient : MonoBehaviour
         animator.SetTrigger("Comein");
 
         diseaseInfo = DiseaseDictionary.GetDiseaseInfo(diseaseCode.disease);
+        timeSpentToDiagnose = 0;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -70,6 +72,10 @@ public class Patient : MonoBehaviour
         {
             StartCoroutine(GetOut());
         }
+
+        // 환자가 들어와서 진료끝날때까지 걸린 시간 체크해서 평판에 추가
+        timeSpentToDiagnose += Time.deltaTime;
+        print(timeSpentToDiagnose);
     }
 
     public void StartTalking()
@@ -89,8 +95,6 @@ public class Patient : MonoBehaviour
 
             IEnumerator dialog_co = dialog.instance.dialog_system_start((int)diseaseCode.disease, PlayerChoice.Instance.PopupFirstChoice);
             StartCoroutine(dialog_co);
-
-
         }
     }
 
