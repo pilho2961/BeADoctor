@@ -135,6 +135,8 @@ public class PlayerChoice : MonoBehaviour
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
+            dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].name = "환자";
+            dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].content = DiseaseDictionary.GetDiseaseInfo(patientDiseaseCode.disease).symptom1;
             IEnumerator dialog_co = dialog.instance.dialog_system_start(((int)patientDiseaseCode.disease + (9 * askedCount)), PopupAfterAdditionalQuestion);
             StartCoroutine(dialog_co);
         }
@@ -184,6 +186,7 @@ public class PlayerChoice : MonoBehaviour
     private void EarTest()
     {
         playerChoice.SetActive(false);
+        dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].name = "< 검진 결과 >";
         dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].content = $"{diseaseInfo.ear}";
         IEnumerator dialog_co = dialog.instance.dialog_system_start(((int)patientDiseaseCode.disease + (9 * askedCount)), FinalSelect);
         StartCoroutine(dialog_co);
@@ -192,6 +195,7 @@ public class PlayerChoice : MonoBehaviour
     private void NoseTest()
     {
         playerChoice.SetActive(false);
+        dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].name = "< 검진 결과 >";
         dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].content = $"{diseaseInfo.nose}";
         IEnumerator dialog_co = dialog.instance.dialog_system_start(((int)patientDiseaseCode.disease + (9 * askedCount)), FinalSelect);
         StartCoroutine(dialog_co);
@@ -200,6 +204,7 @@ public class PlayerChoice : MonoBehaviour
     private void ThroatTest()
     {
         playerChoice.SetActive(false);
+        dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].name = "< 검진 결과 >";
         dialog.instance.dialog_cycles[(int)patientDiseaseCode.disease + (9 * askedCount)].info[0].content = $"{diseaseInfo.throat}";
         IEnumerator dialog_co = dialog.instance.dialog_system_start(((int)patientDiseaseCode.disease + (9 * askedCount)), FinalSelect);
         StartCoroutine(dialog_co);

@@ -29,10 +29,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //if (NPCDialogManager.Instance.dialogIsPlaying)
-        //{
-        //    return;
-        //}
+        if (NPCDialogManager.Instance != null && NPCDialogManager.Instance.dialogIsPlaying)
+        {
+            return;
+        }
 
         if (!interacting)
         {

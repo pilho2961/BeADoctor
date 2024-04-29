@@ -21,11 +21,17 @@ public class EscalatorInteraction : InteractableObject
         }
     }
 
+    protected override void PopupInteraction()
+    {
+        base.PopupInteraction();
+        interactGuideText.text = "[G] 탑승";
+    }
+
     protected override void Interact()
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            print("G키 입력");
+            //print("G키 입력");
 
             if (!player.interacting)
             {

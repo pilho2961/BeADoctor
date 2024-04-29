@@ -25,7 +25,7 @@ public class Dialog_cycle
 public class dialog : MonoBehaviour
 {
     [SerializeField]
-    public static dialog instance = null;
+    public static dialog instance;
     public List<Dialog_cycle> dialog_cycles = new List<Dialog_cycle>(); //대화 지문 그룹
     public Queue<string> text_seq = new Queue<string>();                //대화 지문들의 내용을 큐로 저장한다.(끝점을 쉽게 판단하기 위해)
     public string name_;                                                //임시로 저장할 대화 지문의 이름
@@ -41,6 +41,7 @@ public class dialog : MonoBehaviour
 
     public float delay;
     public bool running = false;
+
     void Awake()    //싱글톤 패턴으로 어느 씬에서든 접근 가능하게 한다.
     {
         if (instance == null)
@@ -52,7 +53,24 @@ public class dialog : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         dialog_obj = GameObject.Find("CanvasWork").transform.Find("Dialog").gameObject;
+
+        for (int i = 0; i < (Enum.GetValues(typeof(DiseaseCode.Disease)).Length * 3) + 1; i++)
+        {
+            dialog_cycles.Add(new Dialog_cycle());
+            dialog_cycles[dialog_cycles.Count - 1].cycle_index = dialog_cycles.Count - 1;
+            dialog_info de = new dialog_info();
+            dialog_cycles[i].info.Add(de);
+
+            int addContent = UnityEngine.Random.Range(0, 2);
+
+            if (addContent == 1 && i < 9)
+            {
+                dialog_info de2 = new dialog_info();
+                dialog_cycles[i].info.Add(de2);
+            }
+        }
     }
+
     public IEnumerator dialog_system_start(int index, Action callBack = null)//다이얼로그 출력 시작
     {
         nameing = dialog_obj.GetComponent<parameter>().name_text;   //다이얼로그 오브젝트에서 각 변수 받아오기

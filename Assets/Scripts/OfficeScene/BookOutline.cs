@@ -29,7 +29,7 @@ public class BookOutline : MonoBehaviour
 
     private void OpenBook()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             animator.SetTrigger("Open");
         }

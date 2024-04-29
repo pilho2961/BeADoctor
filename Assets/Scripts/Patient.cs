@@ -12,6 +12,7 @@ public class Patient : MonoBehaviour
     PatientEnter patientExistence;
 
     public DiseaseCode diseaseCode;
+    DiseaseInfo diseaseInfo;
 
     public bool diagnoseDone;
 
@@ -29,6 +30,8 @@ public class Patient : MonoBehaviour
         diseaseCode.disease = (DiseaseCode.Disease)randNum;
 
         animator.SetTrigger("Comein");
+
+        diseaseInfo = DiseaseDictionary.GetDiseaseInfo(diseaseCode.disease);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -75,13 +78,26 @@ public class Patient : MonoBehaviour
 
         if (dialog.instance.dialog_read((int)diseaseCode.disease) && !dialog.instance.running)
         {
+            dialog.instance.dialog_cycles[(int)diseaseCode.disease].info[0].name = "환자";
+            dialog.instance.dialog_cycles[(int)diseaseCode.disease].info[0].content = diseaseInfo.symptom0;
+
+            if (dialog.instance.dialog_cycles[(int)diseaseCode.disease].info.Count == 2)
+            {
+                dialog.instance.dialog_cycles[(int)diseaseCode.disease].info[1].name = "환자";
+                dialog.instance.dialog_cycles[(int)diseaseCode.disease].info[1].content = diseaseInfo.chat;
+            }
+
             IEnumerator dialog_co = dialog.instance.dialog_system_start((int)diseaseCode.disease, PlayerChoice.Instance.PopupFirstChoice);
             StartCoroutine(dialog_co);
+
+
         }
     }
 
     private IEnumerator GetOut()
     {
+        dialog.instance.dialog_cycles[27].info[0].name = "환자";
+        dialog.instance.dialog_cycles[27].info[0].content = "감사합니다.";
         IEnumerator dialog_co = dialog.instance.dialog_system_start(27);
         StartCoroutine(dialog_co);
         diagnoseDone = false;

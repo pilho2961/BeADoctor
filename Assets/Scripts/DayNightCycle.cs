@@ -17,7 +17,7 @@ public class DayNightCycle : MonoBehaviour
 
     [SerializeField, Range(0, 24)] public float timeOfDay;
 
-    [SerializeField] private float sunRotationSpeed;
+    [SerializeField] public float sunRotationSpeed;
 
     [Header("LightingPreset")]
     [SerializeField] private Gradient skyColor;
