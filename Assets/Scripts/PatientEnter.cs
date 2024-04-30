@@ -13,6 +13,8 @@ public class PatientEnter : MonoBehaviour
     public bool patientExist;
 
     public Player player;
+    public DoctorChair doctorChair;
+    public bool bookOpened;
 
     private void Awake()
     {
@@ -22,7 +24,7 @@ public class PatientEnter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.interacting && Input.GetMouseButton(0) && !patientExist)
+        if (player.interacting && Input.GetMouseButton(0) && !patientExist && !doctorChair.warningWindow.activeSelf && !bookOpened)
         {
             patientExist = true;
             GeneratePatient();

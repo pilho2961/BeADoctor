@@ -54,7 +54,7 @@ public class dialog : MonoBehaviour
 
         dialog_obj = GameObject.Find("CanvasWork").transform.Find("Dialog").gameObject;
 
-        for (int i = 0; i < (Enum.GetValues(typeof(DiseaseCode.Disease)).Length * 3) + 1; i++)
+        for (int i = 0; i < (Enum.GetValues(typeof(DiseaseCode.Disease)).Length * 3) + 5; i++)
         {
             dialog_cycles.Add(new Dialog_cycle());
             dialog_cycles[dialog_cycles.Count - 1].cycle_index = dialog_cycles.Count - 1;
@@ -69,6 +69,21 @@ public class dialog : MonoBehaviour
                 dialog_cycles[i].info.Add(de2);
             }
         }
+    }
+
+    private void Start()
+    {
+        dialog_cycles[27].info[0].name = "환자";
+        dialog_cycles[28].info[0].name = "신봉하는 환자";
+        dialog_cycles[29].info[0].name = "짜증난 환자";
+        dialog_cycles[30].info[0].name = "화난 환자";
+        dialog_cycles[31].info[0].name = "의심하는 환자";
+
+        dialog_cycles[27].info[0].content = "감사합니다. 안녕히 계세요.";
+        dialog_cycles[28].info[0].content = "아유, 선생님만 믿겠습니다. 벌써부터 다 나은 것 같아요!";
+        dialog_cycles[29].info[0].content = "너무 오래 걸리네요. 대학 병원이 원래 이런가요? 오늘 유독 심한 것 같네";
+        dialog_cycles[30].info[0].content = "내가 여기 다시 오나 봐라! 환자를 보겠다는거야 말겠다는거야!";
+        dialog_cycles[31].info[0].content = "진짜 그게 맞아요? 인터넷에서 찾아보니까 아닌 것 같은데...";
     }
 
     public IEnumerator dialog_system_start(int index, Action callBack = null)//다이얼로그 출력 시작

@@ -10,13 +10,15 @@ public class DoctorChair : InteractableObject
     public Player player;
     public LayerMask bookLayerMask;
     private PatientEnter patientExistence;
-    private GameObject warningWindow;
+    public GameObject warningWindow;
 
     public bool watchingBook;
+    public bool bookOpened;
     private float originalTimeflow;
     private float speedupTimeflow = 0.01f;
 
     private bool openBookGuideText = false;
+    Coroutine stressCoroutine;
 
     private void Awake()
     {
@@ -32,7 +34,7 @@ public class DoctorChair : InteractableObject
             Interact();
         }
 
-        if (player.interacting)
+        if (player.interacting && !bookOpened)
         {
             AskEndWorking();
             PopupEndWorking();
@@ -69,7 +71,18 @@ public class DoctorChair : InteractableObject
 
                 player.transform.position = sitPos;
                 PopdownInteraction();
+                stressCoroutine = StartCoroutine(BasicStressGauge());
             }
+        }
+    }
+
+    private IEnumerator BasicStressGauge()
+    {
+        while (!GameManager.GetInstance.gameOver && player.interacting)
+        {
+            yield return new WaitForSeconds(2);
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("Stress", 1);
+            yield return new WaitForSeconds(2);
         }
     }
 
@@ -135,6 +148,7 @@ public class DoctorChair : InteractableObject
                 warningWindow.transform.Find("Content").GetComponent<TextMeshProUGUI>().text =
                     "경고! 환자 진료 도중 진료를 끝내실 경우 사회적 평판에 악영향을 줄 수 있습니다. 그래도 끝내시겠습니까?";
                 warningWindow.transform.Find("Yes").GetComponent<Button>().onClick.AddListener(EndWorking);
+                Cursor.lockState = CursorLockMode.Confined;
             }
             else
             {
@@ -160,6 +174,11 @@ public class DoctorChair : InteractableObject
             player.GetComponent<NavMeshAgent>().enabled = true;
 
             PopdownInteraction();
+
+            StopCoroutine(stressCoroutine);
+            stressCoroutine = null;
+
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public void CheckGameOver(float hungerGaugeValue, float stressGaugeValue, float socialGaugeValue, float moneyGaugeValue)
     {
         if (   hungerGaugeValue <= 0
-            || stressGaugeValue <= 0
+            || stressGaugeValue >= 100
             || socialGaugeValue <= 0 
             || moneyGaugeValue <= 0)
         {

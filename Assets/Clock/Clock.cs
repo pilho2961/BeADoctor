@@ -24,8 +24,11 @@ namespace ClockSample
 
         private void Start()
         {
-            startHour = (int)DayNightCycle.Instance.timeOfDay;
-            startMinute = (int)((DayNightCycle.Instance.timeOfDay - startHour) * 60);
+            if (DayNightCycle.Instance != null)
+            {
+                startHour = (int)DayNightCycle.Instance.timeOfDay;
+                startMinute = (int)((DayNightCycle.Instance.timeOfDay - startHour) * 60);
+            }
 
             // Calculate initial elapsed time based on start time
             CalculateElapsedTime();

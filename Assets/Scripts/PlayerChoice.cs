@@ -87,13 +87,23 @@ public class PlayerChoice : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         playerChoice.SetActive(false);
 
-
         askedCount = 0;
         for (int i = 0; i < buttonList.Count; i++)
         {
             LeanPool.Despawn(buttonList[i]);
         }
         buttonList.Clear();
+
+        if (currentPatient.GetComponent<Patient>().patientType != "불신자")
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("SocialReputation",
+                (int)(currentPatient.GetComponent<Patient>().patienceCoefficient * 10 / currentPatient.GetComponent<Patient>().timeSpentToDiagnose));
+        }
+        else
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("SocialReputation",
+                -(int)(currentPatient.GetComponent<Patient>().patienceCoefficient * currentPatient.GetComponent<Patient>().timeSpentToDiagnose));
+        }
 
         currentPatient.GetComponent<Patient>().diagnoseDone = true;
         currentPatient = null;
@@ -115,9 +125,19 @@ public class PlayerChoice : MonoBehaviour
         }
         buttonList.Clear();
 
+        if (currentPatient.GetComponent<Patient>().patientType != "호구")
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("SocialReputation",
+                -(int)(currentPatient.GetComponent<Patient>().patienceCoefficient * currentPatient.GetComponent<Patient>().timeSpentToDiagnose));
+        }
+        else
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("SocialReputation",
+                (int)(currentPatient.GetComponent<Patient>().patienceCoefficient * currentPatient.GetComponent<Patient>().timeSpentToDiagnose));
+        }
+
         currentPatient.GetComponent<Patient>().diagnoseDone = true;
         currentPatient = null;
-
     }
 
     public void SelectAdditionalQuestion()

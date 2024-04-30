@@ -10,9 +10,10 @@ public class Player : MonoBehaviour
     public float moveSpeed = 2f;
 
     float xRotation = 0f;
-    float yRotation = 180f;
+    public float yRotation = 0f;
 
     public bool interacting;
+    public bool bookOpened;
     public Transform escalatorInteractPoint;
 
     Rigidbody rb;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (NPCDialogManager.Instance != null && NPCDialogManager.Instance.dialogIsPlaying)
+        if (NPCDialogManager.Instance != null && NPCDialogManager.Instance.dialogIsPlaying || bookOpened)
         {
             return;
         }
