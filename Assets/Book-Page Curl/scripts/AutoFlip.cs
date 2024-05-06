@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 [RequireComponent(typeof(FlipBook))]
 public class AutoFlip : MonoBehaviour {
     public FlipMode Mode;
@@ -52,6 +53,22 @@ public class AutoFlip : MonoBehaviour {
         float dx = (xl) * 2 / AnimationFramesCount;
         StartCoroutine(FlipLTR(xc, xl, h, frameTime, dx));
     }
+    /***********커스텀 함수****************/
+    public void FlipToIndexPage()
+    {
+        if (isFlipping) return;
+        if (ControledBook.currentPage >= ControledBook.TotalPageCount) return;
+        isFlipping = true;
+        float frameTime = PageFlipTime / AnimationFramesCount;
+        float xc = (ControledBook.EndBottomRight.x + ControledBook.EndBottomLeft.x) / 2;
+        float xl = ((ControledBook.EndBottomRight.x - ControledBook.EndBottomLeft.x) / 2) * 0.9f;
+        //float h =  ControledBook.Height * 0.5f;
+        float h = Mathf.Abs(ControledBook.EndBottomRight.y) * 0.9f;
+        float dx = (xl) * 2 / AnimationFramesCount;
+        int pageIndex = int.Parse(EventSystem.current.currentSelectedGameObject.name);
+        StartCoroutine(FlipRTLIndex(xc, xl, h, frameTime, dx, pageIndex));
+    }
+    /*************************************/
     IEnumerator FlipToEnd()
     {
         yield return new WaitForSeconds(DelayBeforeStarting);
@@ -121,5 +138,20 @@ public class AutoFlip : MonoBehaviour {
             x += dx;
         }
         ControledBook.ReleasePage();
+    }
+    IEnumerator FlipRTLIndex(float xc, float xl, float h, float frameTime, float dx, int index)
+    {
+        float x = xc + xl;
+        float y = (-h / (xl * xl)) * (x - xc) * (x - xc);
+
+        ControledBook.DragRightPageToPoint(new Vector3(x, y, 0));
+        for (int i = 0; i < AnimationFramesCount; i++)
+        {
+            y = (-h / (xl * xl)) * (x - xc) * (x - xc);
+            ControledBook.UpdateBookRTLToPoint(new Vector3(x, y, 0));
+            yield return new WaitForSeconds(frameTime);
+            x -= dx;
+        }
+        ControledBook.ReleaseIndexPage(index);
     }
 }

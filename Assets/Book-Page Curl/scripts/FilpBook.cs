@@ -363,6 +363,21 @@ public class FlipBook : MonoBehaviour {
                 TweenForward();
         }
     }
+    public void ReleaseIndexPage(int index)
+    {
+        if (pageDragging)
+        {
+            pageDragging = false;
+            float distanceToLeft = Vector2.Distance(c, ebl);
+            float distanceToRight = Vector2.Distance(c, ebr);
+            if (distanceToRight < distanceToLeft && mode == FlipMode.RightToLeft)
+                TweenBack();
+            else if (distanceToRight > distanceToLeft && mode == FlipMode.LeftToRight)
+                TweenBack();
+            else
+                TweenIndexForward(index);
+        }
+    }
     Coroutine currentCoroutine;
     void UpdateSprites()
     {
@@ -376,12 +391,38 @@ public class FlipBook : MonoBehaviour {
         else
         currentCoroutine = StartCoroutine(TweenTo(ebr, 0.15f, () => { Flip(); }));
     }
+    public void TweenIndexForward(int index)
+    {
+        if (mode == FlipMode.RightToLeft)
+            currentCoroutine = StartCoroutine(TweenTo(ebl, 0.15f, () => { FlipToIndex(index); }));
+        else
+            currentCoroutine = StartCoroutine(TweenTo(ebr, 0.15f, () => { FlipToIndex(index); }));
+    }
     void Flip()
     {
         if (mode == FlipMode.RightToLeft)
             currentPage += 2;
         else
             currentPage -= 2;
+        LeftNext.transform.SetParent(BookPanel.transform, true);
+        Left.transform.SetParent(BookPanel.transform, true);
+        LeftNext.transform.SetParent(BookPanel.transform, true);
+        Left.gameObject.SetActive(false);
+        Right.gameObject.SetActive(false);
+        Right.transform.SetParent(BookPanel.transform, true);
+        RightNext.transform.SetParent(BookPanel.transform, true);
+        UpdateSprites();
+        Shadow.gameObject.SetActive(false);
+        ShadowLTR.gameObject.SetActive(false);
+        if (OnFlip != null)
+            OnFlip.Invoke();
+    }
+    void FlipToIndex(int index)
+    {
+        if (mode == FlipMode.RightToLeft)
+            currentPage += index;
+        else
+            currentPage -= index;
         LeftNext.transform.SetParent(BookPanel.transform, true);
         Left.transform.SetParent(BookPanel.transform, true);
         LeftNext.transform.SetParent(BookPanel.transform, true);
