@@ -1,14 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class President : MonoBehaviour
 {
     Player player;
     Animator animator;
     bool talking;
+    bool startMoving;
     [SerializeField] private int playerMeetCount;
     string npcName = "√—¿Â ±Ë∫π≥≤";
+    NavMeshAgent navMeshAgent;
+    Transform targetTrans;
+    Vector3 targetPos;
+    [SerializeField] private SitablePosition[] positions = new SitablePosition[6];
 
     [Header("Ink JSON")]
     [SerializeField] private TextAsset[] inkJSON;
@@ -20,44 +27,90 @@ public class President : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         animator = GetComponent<Animator>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        NPCDialogManager.GetInstance().EnterDialogMode(inkJSON[0], npcName);
         playerMeetCount++;
+        PlayWelcomeDialogue();
     }
 
     void Update()
     {
-        float distance = Vector3.Distance(transform.position, player.transform.position);
-
-        if ( distance < 21)
+        if (player.interacting && !startMoving)
         {
-            animator.SetTrigger("Wave");
+            StartCoroutine(MoveToSofa());
         }
 
-
-        if ( !talking && !NPCDialogManager.GetInstance().dialogIsPlaying)
+        if (navMeshAgent.enabled && navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
         {
-            talking = true;
-            NPCDialogManager.GetInstance().EnterDialogMode(inkJSON[0], npcName);
+            SitSofa();
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void PlayWelcomeDialogue()
     {
-        if (other.CompareTag("Player"))
-        {
-
-        }
+        NPCDialogManager.GetInstance().EnterDialogMode(inkJSON[0], npcName, player.playerName);
+        talking = true;
     }
 
-    private void OnTriggerExit(Collider other)
+    private IEnumerator MoveToSofa()
     {
-        if (other.CompareTag("Player"))
+        startMoving = true;
+        animator.SetTrigger("Standup");
+
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Sit To Stand"))
         {
-            OnDialogueEnd();
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), Time.deltaTime * 0.5f);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        navMeshAgent.enabled = true;
+        animator.SetTrigger("Walk");
+
+        CheckSitablePosition();
+    }
+
+    private void SitSofa()
+    {
+        navMeshAgent.enabled = false;
+        if (targetTrans == positions[3].transform)
+        {
+            float yPos = transform.position.y + 0.2f;
+            targetPos.y = yPos;
+        }
+        else
+        {
+            float yPos = transform.position.y;
+            targetPos.y = yPos;
+        }
+
+        transform.position = targetPos;
+        transform.forward = targetTrans.forward;
+        animator.SetTrigger("Sit");
+    }
+
+    public void Turn()
+    {
+        gameObject.transform.forward = Vector3.right * -1;
+    }
+
+    private void CheckSitablePosition()
+    {
+        if (!positions[2].hasSit)
+        {
+            navMeshAgent.SetDestination(positions[2].transform.position);
+            targetTrans = positions[2].transform;
+            targetPos = positions[2].transform.position;
+        }
+        else
+        {
+            navMeshAgent.SetDestination(positions[3].transform.position);
+            targetTrans = positions[3].transform;
+            targetPos = positions[3].transform.position;
         }
     }
 
@@ -65,7 +118,7 @@ public class President : MonoBehaviour
     {
         if (NPCDialogManager.GetInstance().IsDialogEndReached())
         {
-            Debug.Log("Dialogue completed for Friend.");
+            Debug.Log("Dialogue completed for President.");
             PlayerStatUI.instance.UpdateGauge();
             portal.SetActive(true);
             //SetBool("PlayedOnce", true);

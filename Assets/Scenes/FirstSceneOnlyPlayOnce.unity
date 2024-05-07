@@ -9621,6 +9621,7 @@ MonoBehaviour:
   interacting: 0
   bookOpened: 0
   escalatorInteractPoint: {fileID: 0}
+  playerName: "\uC784\uC2DC \uB2C9\uB124\uC784"
 --- !u!4 &1836240223
 Transform:
   m_ObjectHideFlags: 0

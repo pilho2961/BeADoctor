@@ -63,7 +63,7 @@ public class NPCDialogManager : MonoBehaviour
         }
     }
 
-    public void EnterDialogMode(TextAsset inkJSON, string name, Action callback = null)
+    public void EnterDialogMode(TextAsset inkJSON, string name, string playerName, Action callback = null)
     {
         currentStory = new Story(inkJSON.text);
         dialogIsPlaying = true;
@@ -71,7 +71,7 @@ public class NPCDialogManager : MonoBehaviour
 
         currentStoryNPCName = name;
         dialogName.text = currentStoryNPCName;
-
+        currentStory.variablesState["playerName"] = playerName;
         ContinueStory(callback);
     }
 

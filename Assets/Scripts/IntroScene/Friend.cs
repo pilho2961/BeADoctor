@@ -47,7 +47,7 @@ public class Friend : MonoBehaviour
         {
             talking = true;
             animator.SetBool("Talk", playerInRange);
-            NPCDialogManager.GetInstance().EnterDialogMode(inkJSON, npcName);
+            NPCDialogManager.GetInstance().EnterDialogMode(inkJSON, npcName, player.playerName);
         }
         else if (!playerInRange)
         {

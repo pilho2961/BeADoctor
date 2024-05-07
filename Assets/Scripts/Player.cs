@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     public bool bookOpened;
     public Transform escalatorInteractPoint;
 
+    public string playerName = "임시 닉네임";
+
     Rigidbody rb;
 
     private void Awake()
