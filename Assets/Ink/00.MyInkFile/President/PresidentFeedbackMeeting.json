@@ -1,1 +1,0 @@
-﻿{"inkVersion":21,"root":[[{"->":"welcomeDialog"},["done",{"#f":5,"#n":"g-0"}],null],"done",{"welcomeDialog":["^오 ","ev",{"VAR?":"playerName"},"out","/ev","^, 자네 왔군. 편한 곳에 앉게나.","\n","^잠깐 하던 것만 마무리하고 얘기합세.","\n","end",{"#f":1}],"global decl":["ev","str","^플레이어이름","/str",{"VAR=":"playerName"},"/ev","end",null],"#f":1}],"listDefs":{}}

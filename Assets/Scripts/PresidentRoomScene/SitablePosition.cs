@@ -7,17 +7,25 @@ public class SitablePosition : InteractableObject
 {
     Player player;
     public bool hasSit;
+    Transform frontOfDoor;
 
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        frontOfDoor = GameObject.Find("RoomDoor").transform.Find("FromHallPosition").transform;
+        President.OnDialogueEndEvent += PopupEndInteract;
     }
 
     private void Update()
     {
-        if (onPopup)
+        if (onPopup && !hasSit)
         {
             Interact();
+        }
+
+        if (player.interacting && onPopup && Input.GetKeyDown(KeyCode.G))
+        {
+            EndInteraction();
         }
     }
 
@@ -46,9 +54,30 @@ public class SitablePosition : InteractableObject
         }
     }
 
+    private void PopupEndInteract()
+    {
+        if (!onPopup)
+        {
+            interactGuide.SetActive(true);
+            interactGuideText.text = "[G] 일어나기";
+            onPopup = true;
+        }
+    }
+
+    private void EndInteraction()
+    {
+        player.interacting = false;
+
+        player.transform.position = frontOfDoor.position;
+
+        player.GetComponent<NavMeshAgent>().enabled = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !player.interacting)
+        if (other.CompareTag("Player") && !player.interacting && !hasSit)
         {
             PopupInteraction();
         }

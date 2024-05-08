@@ -31,8 +31,6 @@ public class EscalatorInteraction : InteractableObject
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            //print("GÅ° ÀÔ·Â");
-
             if (!player.interacting)
             {
                 player.escalatorInteractPoint = escalatorEnterance;

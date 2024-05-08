@@ -7,7 +7,7 @@ using UnityEngine;
 public class InteractableObject : MonoBehaviour
 {
     protected bool onPopup;
-    protected GameObject interactGuide;
+    [SerializeField] protected GameObject interactGuide;
     protected TextMeshProUGUI interactGuideText;
 
     private void Start()

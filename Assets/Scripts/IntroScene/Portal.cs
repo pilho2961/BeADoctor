@@ -7,8 +7,7 @@ public class Portal : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
-            return;
+        if (!other.CompareTag("Player")) return;
 
         // 현재 활성화된 씬이름을 얻는다.
         Scene nowScene = SceneManager.GetActiveScene();
@@ -30,7 +29,7 @@ public class Portal : MonoBehaviour
                 }
                 else
                 {
-                    // 2층 총장실 씬으로 이동
+                    SceneLoader.GetInstance.HallToPresidentScene();
                 }
                 break;
 

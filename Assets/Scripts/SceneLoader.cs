@@ -42,6 +42,10 @@ public class SceneLoader : MonoBehaviour
     }
     #endregion
 
+    public delegate void SceneLoadAction();
+
+    public static event SceneLoadAction OnSceneLoadedEvent;
+
     //public void FirstToHospitalHallScene()
     //{
     //    SceneManager.LoadScene("HospitalHallScene");
@@ -83,6 +87,8 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.LogError("Player not found");
         }
+
+        OnSceneLoadedEvent?.Invoke();
     }
 
     //public void HallToOfficeScene()
@@ -127,6 +133,7 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.LogError("Player not found");
         }
+        OnSceneLoadedEvent?.Invoke();
     }
 
     //public void OfficeToHallScene()
@@ -171,6 +178,7 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.LogError("Player not found");
         }
+        OnSceneLoadedEvent?.Invoke();
     }
 
 
@@ -207,5 +215,43 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.LogError("Player not found");
         }
+        OnSceneLoadedEvent?.Invoke();
+    }
+
+    public void HallToPresidentScene()
+    {
+        SceneManager.LoadSceneAsync("PresidentRoomScene").completed += LoadPlayerToPresidentFromHall;
+    }
+
+    void LoadPlayerToPresidentFromHall(AsyncOperation operation)
+    {
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            GameObject roomDoor = GameObject.Find("RoomDoor");
+            if (roomDoor != null)
+            {
+                Transform fromOfficePosition = roomDoor.transform.Find("FromHallPosition");
+                if (fromOfficePosition != null)
+                {
+                    player.transform.position = fromOfficePosition.position;
+                    player.GetComponent<Player>().yRotation = -90f;
+                    roomDoor.SetActive(false);
+                }
+                else
+                {
+                    Debug.LogError("FromHallPosition not found");
+                }
+            }
+            else
+            {
+                Debug.LogError("RoomDoor not found");
+            }
+        }
+        else
+        {
+            Debug.LogError("Player not found");
+        }
+        OnSceneLoadedEvent?.Invoke();
     }
 }

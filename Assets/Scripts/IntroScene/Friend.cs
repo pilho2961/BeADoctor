@@ -43,11 +43,11 @@ public class Friend : MonoBehaviour
         }
 
 
-        if (playerInRange && !talking && !NPCDialogManager.GetInstance().dialogIsPlaying)
+        if (playerInRange && !talking && !NPCDialogManager.GetInstance.dialogIsPlaying)
         {
             talking = true;
             animator.SetBool("Talk", playerInRange);
-            NPCDialogManager.GetInstance().EnterDialogMode(inkJSON, npcName, player.playerName);
+            NPCDialogManager.GetInstance.EnterDialogMode(inkJSON, npcName, player.playerName);
         }
         else if (!playerInRange)
         {
@@ -74,7 +74,7 @@ public class Friend : MonoBehaviour
 
     private void OnDialogueEnd()
     {
-        if (NPCDialogManager.GetInstance().IsDialogEndReached())
+        if (NPCDialogManager.GetInstance.IsDialogEndReached())
         {
             Debug.Log("Dialogue completed for Friend.");
             friendCollider.enabled = false;

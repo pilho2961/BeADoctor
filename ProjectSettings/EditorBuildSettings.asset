@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OfficeScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/PresidentRoomScene.unity
+    guid: ac3718662ca3e774ea2dbd17ab437ef7
   m_configObjects: {}

@@ -32,15 +32,35 @@ public class NPCDialogManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null && Instance != this)
         {
-            Debug.LogWarning("Found more than one Dialog Manager in the scene");
+            Destroy(gameObject);
+            return;
         }
+
         Instance = this;
+
+        DontDestroyOnLoad(gameObject);
     }
 
-    public static NPCDialogManager GetInstance() { return Instance; }
+    public static NPCDialogManager GetInstance
+    {
+        get
+        {
+            if (Instance == null)
+            {
+                Instance = FindObjectOfType<NPCDialogManager>();
 
+                if (Instance == null)
+                {
+                    GameObject obj = new GameObject();
+                    obj.name = "NPCDialogManager";
+                    Instance = obj.AddComponent<NPCDialogManager>();
+                }
+            }
+            return Instance;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +91,10 @@ public class NPCDialogManager : MonoBehaviour
 
         currentStoryNPCName = name;
         dialogName.text = currentStoryNPCName;
-        currentStory.variablesState["playerName"] = playerName;
+        if (currentStory.variablesState["playerName"] != null)
+        {
+            currentStory.variablesState["playerName"] = playerName;
+        }
         ContinueStory(callback);
     }
 

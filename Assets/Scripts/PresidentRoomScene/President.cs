@@ -10,6 +10,10 @@ public class President : MonoBehaviour
     Animator animator;
     bool talking;
     bool startMoving;
+    bool talked;
+    bool sit;
+    int timer;
+    Coroutine timerCoroutine;
     [SerializeField] private int playerMeetCount;
     string npcName = "총장 김복남";
     NavMeshAgent navMeshAgent;
@@ -23,6 +27,10 @@ public class President : MonoBehaviour
     [Header("대화 후 생성할 포탈")]
     [SerializeField] private GameObject portal;
 
+    public delegate void DialogueEndAction();
+
+    public static event DialogueEndAction OnDialogueEndEvent;
+
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
@@ -32,6 +40,8 @@ public class President : MonoBehaviour
 
     private void Start()
     {
+        talking = false;
+        timerCoroutine = null;
         playerMeetCount++;
         PlayWelcomeDialogue();
     }
@@ -43,20 +53,36 @@ public class President : MonoBehaviour
             StartCoroutine(MoveToSofa());
         }
 
-        if (navMeshAgent.enabled && navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
+        if (navMeshAgent.enabled && navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance && !sit)
         {
-            SitSofa();
+            sit = true;
+            StartCoroutine(SitSofa());
         }
+
+        if (timer > 20 && timerCoroutine != null)
+        {
+            // 뭐하냐는 대화 시작
+            StopCoroutine(timerCoroutine);
+            timerCoroutine = null;
+            timer = 0;
+            NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[3], npcName, player.playerName);
+        }
+
+        OnDialogueEnd();
+
     }
 
     private void PlayWelcomeDialogue()
     {
-        NPCDialogManager.GetInstance().EnterDialogMode(inkJSON[0], npcName, player.playerName);
-        talking = true;
+        NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[0], npcName, player.playerName);
+        timerCoroutine = StartCoroutine(StartTimer());
     }
 
     private IEnumerator MoveToSofa()
     {
+        StopCoroutine(timerCoroutine);
+        timerCoroutine = null;
+
         startMoving = true;
         animator.SetTrigger("Standup");
 
@@ -74,7 +100,7 @@ public class President : MonoBehaviour
         CheckSitablePosition();
     }
 
-    private void SitSofa()
+    private IEnumerator SitSofa()
     {
         navMeshAgent.enabled = false;
         if (targetTrans == positions[3].transform)
@@ -91,11 +117,28 @@ public class President : MonoBehaviour
         transform.position = targetPos;
         transform.forward = targetTrans.forward;
         animator.SetTrigger("Sit");
+
+        yield return new WaitForSeconds(animator.runtimeAnimatorController.animationClips.Length);
+
+        animator.SetTrigger("Talk");
+
+        if (!talking && !talked)
+        {
+            StartTalking();
+            yield return null;
+        }
+    }
+
+    public void StartTalking()
+    {
+        NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[playerMeetCount], npcName, player.playerName);
+        talking = true;
+        talked = true;
     }
 
     public void Turn()
     {
-        gameObject.transform.forward = Vector3.right * -1;
+        //gameObject.transform.forward = Vector3.right * -1;
     }
 
     private void CheckSitablePosition()
@@ -112,17 +155,38 @@ public class President : MonoBehaviour
             targetTrans = positions[3].transform;
             targetPos = positions[3].transform.position;
         }
+
+        foreach(var position in positions)
+        {
+            position.hasSit = true;
+        }
     }
 
     private void OnDialogueEnd()
     {
-        if (NPCDialogManager.GetInstance().IsDialogEndReached())
+        if (NPCDialogManager.GetInstance.IsDialogEndReached() && talking)
         {
             Debug.Log("Dialogue completed for President.");
             PlayerStatUI.instance.UpdateGauge();
             portal.SetActive(true);
-            //SetBool("PlayedOnce", true);
+
+            animator.SetTrigger("Ease");
+            transform.position = new Vector3 (transform.position.x + 0.2f, transform.position.y, transform.position.z);
+
+            OnDialogueEndEvent?.Invoke();
+            talking = false;
+
+            timerCoroutine = StartCoroutine(StartTimer());
         }
         // Call your other method here
+    }
+
+    IEnumerator StartTimer()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            timer++;
+        }
     }
 }

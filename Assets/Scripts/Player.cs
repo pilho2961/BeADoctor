@@ -19,10 +19,12 @@ public class Player : MonoBehaviour
     public string playerName = "임시 닉네임";
 
     Rigidbody rb;
+    NavMeshAgent navMeshAgent;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     void Start()
@@ -90,14 +92,14 @@ public class Player : MonoBehaviour
     public void RideEscalator()
     {
         interacting = true;
-        rb.isKinematic = false;
-        transform.GetComponent<NavMeshAgent>().enabled = !interacting;
-        
-        Vector3 ridePoint = new Vector3(escalatorInteractPoint.position.x, escalatorInteractPoint.position.y + 4, escalatorInteractPoint.position.z);
-        
-        transform.position = ridePoint;
-        rb.position = transform.position;
+        rb.isKinematic = true;
+        navMeshAgent.enabled = !interacting;
 
+        Vector3 ridePoint = new Vector3(escalatorInteractPoint.position.x, escalatorInteractPoint.position.y + 2, escalatorInteractPoint.position.z);
+        transform.position = ridePoint;
+
+        rb.position = transform.position;
+        rb.isKinematic = false;
         transform.forward = escalatorInteractPoint.right;
     }
 
@@ -112,6 +114,6 @@ public class Player : MonoBehaviour
 
         transform.forward = escalatorInteractPoint.up;
 
-        transform.GetComponent<NavMeshAgent>().enabled = !interacting;
+        navMeshAgent.enabled = !interacting;
     }
 }
