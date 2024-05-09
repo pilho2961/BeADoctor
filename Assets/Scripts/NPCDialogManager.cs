@@ -79,7 +79,10 @@ public class NPCDialogManager : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
-            ContinueStory();
+            if (!Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.S) && !Input.GetKeyDown(KeyCode.D))
+            {
+                ContinueStory();
+            }
         }
     }
 
