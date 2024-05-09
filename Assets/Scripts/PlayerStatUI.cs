@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class PlayerStatUI : MonoBehaviour
     Slider hungerGauge;
     Slider stressGauge;
     Slider socialReputationGauge;
-    Slider moneyGauge;
+    TextMeshProUGUI moneyAmount;
 
     private void Awake()
     {
@@ -44,7 +45,7 @@ public class PlayerStatUI : MonoBehaviour
         hungerGauge = statGauges[0].GetComponentInChildren<Slider>();
         stressGauge = statGauges[1].GetComponentInChildren<Slider>();
         socialReputationGauge = statGauges[2].GetComponentInChildren<Slider>();
-        moneyGauge = statGauges[3].GetComponentInChildren<Slider>();
+        moneyAmount = statGauges[3].GetComponentInChildren<TextMeshProUGUI>();
 
         UpdateGauge();
     }
@@ -57,9 +58,9 @@ public class PlayerStatUI : MonoBehaviour
         hungerGauge.value = (float)(PlayerStatManager.GetInstance.StatValues[PlayerStatManager.ValueType.Hunger.ToString()] + PlayerStatManager.maxValue) / total;
         stressGauge.value = (float)(PlayerStatManager.GetInstance.StatValues[PlayerStatManager.ValueType.Stress.ToString()] + PlayerStatManager.maxValue) / total;
         socialReputationGauge.value = (float)(PlayerStatManager.GetInstance.StatValues[PlayerStatManager.ValueType.SocialReputation.ToString()] + PlayerStatManager.maxValue) / total;
-        moneyGauge.value = (float)PlayerStatManager.GetInstance.StatValues[PlayerStatManager.ValueType.Money.ToString()] / PlayerStatManager.maxMoney;
+        moneyAmount.text = $"{PlayerStatManager.GetInstance.StatValues[PlayerStatManager.ValueType.Money.ToString()]} $";
 
-        GameManager.GetInstance.CheckGameOver(hungerGauge.value, stressGauge.value, socialReputationGauge.value, moneyGauge.value);
+        GameManager.GetInstance.CheckGameOver(hungerGauge.value, stressGauge.value, socialReputationGauge.value);
     }
 
     public void UpdateHungerGaugeOnly()
@@ -68,6 +69,6 @@ public class PlayerStatUI : MonoBehaviour
 
         hungerGauge.value = (float)(PlayerStatManager.GetInstance.StatValues[PlayerStatManager.ValueType.Hunger.ToString()] + PlayerStatManager.maxValue) / total;
 
-        GameManager.GetInstance.CheckGameOver(hungerGauge.value, 1, 1, 1);
+        GameManager.GetInstance.CheckGameOver(hungerGauge.value, 1, 1);
     }
 }

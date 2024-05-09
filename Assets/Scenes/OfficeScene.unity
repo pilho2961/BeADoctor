@@ -6237,7 +6237,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 70
+  m_Intensity: 50
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -6510,6 +6510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d5ed904ce818a14699518ab8ca1f6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactGuide: {fileID: 0}
   player: {fileID: 0}
   bookLayerMask:
     serializedVersion: 2
@@ -12352,6 +12353,7 @@ MonoBehaviour:
   interacting: 0
   bookOpened: 0
   escalatorInteractPoint: {fileID: 0}
+  playerName: "\uC784\uC2DC \uB2C9\uB124\uC784"
 --- !u!4 &709744152
 Transform:
   m_ObjectHideFlags: 0
@@ -12678,7 +12680,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 70
+  m_Intensity: 50
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

@@ -36,10 +36,18 @@ public class PatientEnter : MonoBehaviour
         int randPatient = Random.Range(0, patientPrefabs.Length);
 
         LeanPool.Spawn(patientPrefabs[randPatient], transform);
+        CountPatient();
 
         foreach (var triggers in patientTriggers)
         {
             triggers.enabled = true;
         }
+    }
+
+    private void CountPatient()
+    {
+        int currentNumber = PlayerPrefs.GetInt("patientCount");
+        int newNumber = currentNumber + 1;
+        PlayerPrefs.SetInt("patientCount", newNumber);
     }
 }

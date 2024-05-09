@@ -84,7 +84,7 @@ public class PlayerStatManager : MonoBehaviour
         Debug.Log("Hunger value: " + hungerValue);
 
         // Modifying values by name
-        statValues[ValueType.Money.ToString()] = 1;
+        statValues[ValueType.Money.ToString()] = 0;
         Debug.Log("Money value: " + statValues[ValueType.Money.ToString()]);
     }
 

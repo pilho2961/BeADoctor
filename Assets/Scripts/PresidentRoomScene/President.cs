@@ -44,7 +44,8 @@ public class President : MonoBehaviour
     {
         talking = false;
         timerCoroutine = null;
-        playerMeetCount++;
+        SetPlayerMeetCount("playerMeetCount", 1);
+        playerMeetCount += GetPlayerMeetCount("playerMeetCount");
         PlayWelcomeDialogue();
     }
 
@@ -183,6 +184,7 @@ public class President : MonoBehaviour
             OnDialogueEndEvent?.Invoke();
             talking = false;
 
+            DirectoryManager.GetInstance.ChooseDirectoryByCondition();
             timerCoroutine = StartCoroutine(StartTimer());
         }
         // Call your other method here
@@ -200,28 +202,40 @@ public class President : MonoBehaviour
     IEnumerator Horror()
     {
         horrorSequenceActive = true;
-        Vector3 originalPos = transform.position;       // 끝나면 되돌아가기 위한 위치 저장
+        Vector3 originalPos = new Vector3(transform.position.x + 0.4f, transform.position.y, transform.position.z);       // 끝나면 되돌아가기 위한 위치 저장
         Quaternion originalRot = transform.rotation;
 
-        Vector3 targetPos = new Vector3(player.transform.position.x + 0.5f, player.transform.position.y, player.transform.position.z + 0.5f);
+        Vector3 targetPos = new Vector3(player.transform.position.x - 1f, player.transform.position.y, player.transform.position.z);
 
         postProcessingVolume.SetActive(true);
 
         navMeshAgent.enabled = true;
-        navMeshAgent.SetDestination(targetPos);
-        navMeshAgent.speed = 15;
-        navMeshAgent.acceleration = 15;
-        navMeshAgent.stoppingDistance = 1;
         animator.SetTrigger("Sprint");
+        navMeshAgent.SetDestination(targetPos);
+        navMeshAgent.speed = 12.5f;
+        navMeshAgent.acceleration = 80;
+        navMeshAgent.stoppingDistance = 0.1f;
 
-        while (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
+        //while (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+        //{
+        //    yield return new WaitForSeconds(1f);
+        //    print("왜 안기다려");
+        //}
+
+        while (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
         {
-            yield return new WaitForSeconds(1f);
-            print("왜 안기다려");
+            // Calculate direction towards player's body
+            Vector3 direction = (player.playerBody.transform.position - transform.position).normalized;
+
+            // Smoothly rotate the NPC towards the direction
+            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 20);
+
+            yield return null;
         }
 
         animator.SetTrigger("Stare");
-        transform.LookAt(player.transform.position);
+        //transform.forward = (player.playerBody.transform.position - transform.position).normalized;
         NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[3], npcName, player.playerName);
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
 
@@ -231,5 +245,17 @@ public class President : MonoBehaviour
         postProcessingVolume.SetActive(false);
         animator.SetTrigger("Turnback");
         horrorSequenceActive = false;
+    }
+
+    private static void SetPlayerMeetCount(string key, int value)
+    {
+        int currentCount = PlayerPrefs.GetInt(key);
+        int newCount = currentCount + value;
+        PlayerPrefs.SetInt(key, newCount);
+    }
+
+    public static int GetPlayerMeetCount(string key)
+    {
+        return PlayerPrefs.GetInt(key);
     }
 }

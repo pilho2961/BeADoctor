@@ -37,6 +37,10 @@ public class Portal : MonoBehaviour
                 SceneLoader.GetInstance.OfficeToHallScene();
                 break;
 
+            case "PresidentRoomScene":
+                SceneLoader.GetInstance.PresidentToHallScene();
+                break;
+
         }
     }
 }

@@ -254,4 +254,42 @@ public class SceneLoader : MonoBehaviour
         }
         OnSceneLoadedEvent?.Invoke();
     }
+
+    public void PresidentToHallScene()
+    {
+        SceneManager.LoadSceneAsync("HospitalHallScene").completed += LoadPlayerToHallFromPresident;
+    }
+
+    void LoadPlayerToHallFromPresident(AsyncOperation operation)
+    {
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            GameObject roomDoor = GameObject.Find("PresidentRoomDoor");
+            if (roomDoor != null)
+            {
+                Transform fromOfficePosition = roomDoor.transform.Find("FromPresidenttPosition");
+                if (fromOfficePosition != null)
+                {
+                    player.transform.position = fromOfficePosition.position;
+                    player.GetComponent<Player>().yRotation = -90f;
+                    roomDoor.SetActive(false);
+                }
+                else
+                {
+                    Debug.LogError("FromPresidenttPosition not found");
+                }
+            }
+            else
+            {
+                Debug.LogError("PresidentRoomDoor not found");
+            }
+        }
+        else
+        {
+            Debug.LogError("Player not found");
+        }
+
+        OnSceneLoadedEvent?.Invoke();
+    }
 }
