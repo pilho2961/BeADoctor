@@ -20,11 +20,13 @@ public class Player : MonoBehaviour
 
     Rigidbody rb;
     NavMeshAgent navMeshAgent;
+    Collider playerCollider;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        playerCollider = GetComponent<Collider>();
     }
 
     void Start()
@@ -93,6 +95,7 @@ public class Player : MonoBehaviour
     {
         interacting = true;
         rb.isKinematic = true;
+        playerCollider.isTrigger = false;
         navMeshAgent.enabled = !interacting;
 
         Vector3 ridePoint = new Vector3(escalatorInteractPoint.position.x, escalatorInteractPoint.position.y + 2, escalatorInteractPoint.position.z);
@@ -107,6 +110,7 @@ public class Player : MonoBehaviour
     {
         interacting = false;
         rb.isKinematic = true;
+        playerCollider.isTrigger = true;
         Vector3 ridePoint = new Vector3(escalatorInteractPoint.position.x, escalatorInteractPoint.position.y + 1, escalatorInteractPoint.position.z + 4);
 
         transform.position = ridePoint;

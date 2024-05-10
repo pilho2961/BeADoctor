@@ -23,7 +23,7 @@ public class Portal : MonoBehaviour
                 {
                     SceneLoader.GetInstance.HallToCityScene();
                 }
-                else if (other.transform.position.y < 3 && other.transform.position.z < 5)
+                else if (other.transform.position.y < 3 && other.transform.position.z < 5 && other.transform.position.x > -13)
                 {
                     SceneLoader.GetInstance.HallToOfficeScene();
                 }

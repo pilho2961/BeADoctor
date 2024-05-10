@@ -199,47 +199,95 @@ public class President : MonoBehaviour
         }
     }
 
+    // 장애물을 피하지만 관성때문에 카메라 앞에 나타나지 않는
+    //IEnumerator Horror()
+    //{
+    //    horrorSequenceActive = true;
+    //    Vector3 originalPos = new Vector3(transform.position.x + 0.4f, transform.position.y, transform.position.z);       // 끝나면 되돌아가기 위한 위치 저장
+    //    Quaternion originalRot = transform.rotation;
+
+    //    Vector3 targetPos = new Vector3(player.transform.position.x - 1, player.transform.position.y, player.transform.position.z - 1);
+
+    //    postProcessingVolume.SetActive(true);
+
+    //    navMeshAgent.enabled = true;
+    //    animator.SetTrigger("Sprint");
+    //    navMeshAgent.SetDestination(targetPos);
+    //    navMeshAgent.speed = 12.5f;
+    //    navMeshAgent.acceleration = 80;
+    //    navMeshAgent.stoppingDistance = 0.1f;
+
+    //    //while (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+    //    //{
+    //    //    yield return new WaitForSeconds(1f);
+    //    //    print("왜 안기다려");
+    //    //}
+
+    //    while (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+    //    {
+    //        // Calculate direction towards player's body
+    //        Vector3 direction = (player.playerBody.transform.position - transform.position).normalized;
+
+    //        // Smoothly rotate the NPC towards the direction
+    //        Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+    //        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 20);
+
+    //        yield return null;
+    //    }
+
+    //    animator.SetTrigger("Stare");
+    //    navMeshAgent.SetDestination(player.transform.position);
+
+    //    //transform.forward = (player.playerBody.transform.position - transform.position).normalized;
+    //    NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[3], npcName, player.playerName);
+    //    yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+
+    //    navMeshAgent.enabled = false;
+    //    transform.position = originalPos;
+    //    transform.rotation = originalRot;
+    //    postProcessingVolume.SetActive(false);
+    //    animator.SetTrigger("Turnback");
+    //    horrorSequenceActive = false;
+    //}
+
     IEnumerator Horror()
     {
         horrorSequenceActive = true;
-        Vector3 originalPos = new Vector3(transform.position.x + 0.4f, transform.position.y, transform.position.z);       // 끝나면 되돌아가기 위한 위치 저장
+        Vector3 originalPos = new Vector3(transform.position.x + 0.4f, transform.position.y, transform.position.z);
         Quaternion originalRot = transform.rotation;
 
-        Vector3 targetPos = new Vector3(player.transform.position.x - 1f, player.transform.position.y, player.transform.position.z);
+        Vector3 targetPos = player.transform.position + (player.transform.up.normalized * 0.2f);
 
         postProcessingVolume.SetActive(true);
 
-        navMeshAgent.enabled = true;
+        navMeshAgent.enabled = false; // Disable NavMeshAgent
         animator.SetTrigger("Sprint");
-        navMeshAgent.SetDestination(targetPos);
-        navMeshAgent.speed = 12.5f;
-        navMeshAgent.acceleration = 80;
-        navMeshAgent.stoppingDistance = 0.1f;
 
-        //while (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-        //{
-        //    yield return new WaitForSeconds(1f);
-        //    print("왜 안기다려");
-        //}
+        float speed = 1f;
+        Vector3 direction = (targetPos - transform.position).normalized;
+        direction.y = 0;
 
-        while (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+        // Move towards the target position with manual velocity control
+        while (Vector3.Distance(transform.position, targetPos) > 2f)
         {
-            // Calculate direction towards player's body
-            Vector3 direction = (player.playerBody.transform.position - transform.position).normalized;
+            // Move towards the target position with a constant speed
+            transform.position += direction * speed * Time.deltaTime;
 
-            // Smoothly rotate the NPC towards the direction
+            // Rotate towards the direction of movement
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 20);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 100);
 
             yield return null;
         }
 
         animator.SetTrigger("Stare");
-        //transform.forward = (player.playerBody.transform.position - transform.position).normalized;
+        transform.position = targetPos;
+        Vector3 stareDir = (player.transform.position - transform.position).normalized;
+        stareDir.y = 0;
+        transform.rotation = Quaternion.LookRotation(stareDir, Vector3.up);
         NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[3], npcName, player.playerName);
-        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));  
 
-        navMeshAgent.enabled = false;
         transform.position = originalPos;
         transform.rotation = originalRot;
         postProcessingVolume.SetActive(false);

@@ -268,12 +268,11 @@ public class SceneLoader : MonoBehaviour
             GameObject roomDoor = GameObject.Find("PresidentRoomDoor");
             if (roomDoor != null)
             {
-                Transform fromOfficePosition = roomDoor.transform.Find("FromPresidenttPosition");
-                if (fromOfficePosition != null)
+                Transform fromPresidentPosition = roomDoor.transform.Find("FromPresidenttPosition");
+                if (fromPresidentPosition != null)
                 {
-                    player.transform.position = fromOfficePosition.position;
-                    player.GetComponent<Player>().yRotation = -90f;
-                    roomDoor.SetActive(false);
+                    player.transform.position = fromPresidentPosition.position;
+                    player.GetComponent<Player>().yRotation = 0f;
                 }
                 else
                 {

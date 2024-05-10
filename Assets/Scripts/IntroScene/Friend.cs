@@ -87,8 +87,8 @@ public class Friend : MonoBehaviour
             friendCollider.enabled = false;
             PlayerStatUI.instance.UpdateGauge();
             portal.SetActive(true);
-            DirectoryManager.GetInstance.ChooseDirectoryByCondition();
             SetBool("PlayedOnce", true);
+            DirectoryManager.GetInstance.ChooseDirectoryByCondition();
         }
         // Call your other method here
     }
