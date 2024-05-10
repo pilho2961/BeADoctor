@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public GameObject optionPanel;
     public GameObject playGuidePanel;
 
+    public bool isOn;
+
     enum PanelState
     {
         OnPlayGuidePanel,
@@ -103,6 +105,17 @@ public class UIManager : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+        if (currentPanelState != PanelState.None && !isOn)
+        {
+            isOn = true;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        else if (currentPanelState == PanelState.None && isOn)
+        {
+            isOn = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

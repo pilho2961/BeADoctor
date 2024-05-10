@@ -256,7 +256,8 @@ public class President : MonoBehaviour
         Vector3 originalPos = new Vector3(transform.position.x + 0.4f, transform.position.y, transform.position.z);
         Quaternion originalRot = transform.rotation;
 
-        Vector3 targetPos = player.transform.position + (player.transform.up.normalized * 0.2f);
+        Vector3 targetPos = player.transform.position + (player.transform.up.normalized * 10);
+        targetPos.y = 0;
 
         postProcessingVolume.SetActive(true);
 
@@ -270,12 +271,13 @@ public class President : MonoBehaviour
         // Move towards the target position with manual velocity control
         while (Vector3.Distance(transform.position, targetPos) > 2f)
         {
+            print(Vector3.Distance(transform.position, targetPos));
             // Move towards the target position with a constant speed
             transform.position += direction * speed * Time.deltaTime;
 
             // Rotate towards the direction of movement
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 100);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 100);
 
             yield return null;
         }

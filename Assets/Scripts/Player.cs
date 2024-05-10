@@ -41,6 +41,11 @@ public class Player : MonoBehaviour
             return;
         }
 
+        if (UIManager.Instance.isOn)
+        {
+            return;
+        }
+
         if (!interacting)
         {
             Move();
