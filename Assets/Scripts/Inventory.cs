@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
 {
     public GameObject[] slots;
     public ItemsSO[] itemData;
+    public int[] itemQuantities;
 
     private void Awake()
     {
@@ -47,23 +48,30 @@ public class Inventory : MonoBehaviour
             else
             {
                 slots[i].GetComponent<InventorySlot>().itemData = itemData[i];
+                slots[i].GetComponent<InventorySlot>().slotIndex = i;
             }
         }
     }
 
     public void AddItem(ItemsSO itemSO)
     {
-        int emptySlotIndex = FindEmptySlotIndex();
-
-        if (emptySlotIndex != -1)
+        if (CheckStackableItem(itemSO) != -1)
         {
-            itemData[emptySlotIndex] = itemSO;
+            itemQuantities[CheckStackableItem(itemSO)]++;
         }
         else
         {
-            Debug.LogWarning("Inventory is full. Cannot add item.");
-        }
+            int emptySlotIndex = FindEmptySlotIndex();
 
+            if (emptySlotIndex != -1)
+            {
+                itemData[emptySlotIndex] = itemSO;
+            }
+            else
+            {
+                Debug.LogWarning("Inventory is full. Cannot add item.");
+            }
+        }
     }
 
     private int FindEmptySlotIndex()
@@ -90,15 +98,45 @@ public class Inventory : MonoBehaviour
     //    return -1;
     //}
 
-    public void UseItem()
+    public void RemoveItem(int slotIndex)
     {
-        // 아이템 사용에 따른 PlayerStatManager에 반영
-        RemoveItem();
+        // Remove itemData for array and sort again to fill the gap
+        for (int i = slotIndex; i < itemData.Length - 1; i++)
+        {
+            itemData[i] = itemData[i + 1];
+        }
+
+        itemData[itemData.Length - 1] = null;
     }
 
-    private void RemoveItem()
+    public bool CheckPlayerOwnOfficeKey()
     {
-        // 인벤토리에서 아이템 정보 제거
+        for(int i = 0; i < itemData.Length; i++)
+        {
+            if (itemData[i] == null) { return false; }
+            else if(itemData[i].itemName == "진료실 카드키")
+            {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+    private int CheckStackableItem(ItemsSO itemsSO)
+    {
+        if (itemsSO.stackable)
+        {
+            for (int i = 0; i < itemData.Length; i++)
+            {
+                if (itemData[i] == null) { return -1; }
+                else if (itemData[i].itemName == itemsSO.itemName)
+                {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
     }
 }

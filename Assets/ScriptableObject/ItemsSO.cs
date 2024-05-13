@@ -13,15 +13,6 @@ public class ItemsSO : ScriptableObject
     public PlayerStatManager.ValueType recoverType;
     public int recoverValue;
 
-    public bool playerOwned;
     public bool consumable;
     public bool stackable;
-
-#if UNITY_EDITOR
-    [Header("Toggle Properties")]
-    public bool togglePlayerOwned = true;
-    public bool toggleConsumable = true;
-    public bool toggleQuantity = true;
-    public bool toggleRecoverValue = true;
-#endif
 }

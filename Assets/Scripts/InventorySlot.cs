@@ -7,14 +7,18 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public int slotIndex;
+
     public ItemsSO itemData;
     public Image itemImage;
     public TextMeshProUGUI itemDescription;
 
+    private Inventory inventory;
 
     private void Awake()
     {
         itemImage = GetComponent<Image>();
+        inventory = GetComponentInParent<Inventory>();
     }
 
     void OnEnable()
@@ -26,6 +30,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         itemImage.sprite = itemData.itemImage;
     }
+
+    
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -69,6 +75,9 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             if (clickCount == 2)
             {
                 Debug.Log("Double Clicked!");
+                UseItem();
+                itemImage.sprite = null;
+                itemData = null;
                 // Add your double-click action here
                 clickCount = 0; // Reset the click count
             }
@@ -81,5 +90,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         // Update the last click time
         lastClickTime = currentTime;
+    }
+
+    public void UseItem()
+    {
+        // 아이템 사용에 따른 PlayerStatManager에 반영
+        PlayerStatManager.GetInstance.ResulfOfPlayerAction(itemData.recoverType.ToString(), itemData.recoverValue);
+        inventory.RemoveItem(slotIndex);
     }
 }

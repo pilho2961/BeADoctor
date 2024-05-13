@@ -14,7 +14,7 @@ public class InteractableObject : MonoBehaviour
     {
         onPopup = false;
         interactGuide = GameObject.Find("Canvas").transform.Find("InteractGuide").gameObject;
-        interactGuideText = GameObject.Find("Canvas").transform.Find("InteractGuide").GetComponent<TextMeshProUGUI>();
+        interactGuideText = interactGuide.GetComponent<TextMeshProUGUI>();
     }
 
     protected virtual void PopupInteraction()

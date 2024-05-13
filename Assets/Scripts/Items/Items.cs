@@ -13,7 +13,7 @@ public class Items : InteractableObject
     public Transform playerTransform; // Reference to the player's transform
     public CinemachineVirtualCamera virtualCamera; // Reference to the Cinemachine virtual camera
     public float interactionDistance = 3f; // Distance within which interaction is allowed
-    public float fieldOfViewAngle = 60f; // Field of view angle of the camera
+    public float fieldOfViewAngle = 70f; // Field of view angle of the camera
 
     private void Awake()
     {
@@ -47,20 +47,12 @@ public class Items : InteractableObject
         {
             if (!player.interacting)
             {
-                print("¸Ô±â");
+                print("ÁÝ±â");
                 inventory.AddItem(itemData);
                 LeanPool.Despawn(gameObject);
+                PopdownInteraction();
             }
         }
-    }
-
-    public bool CheckPlayerOwned()
-    {
-        if (itemData.playerOwned)
-        {
-            return true;
-        }
-        else { return false; }
     }
 
     protected override void PopupInteraction()
