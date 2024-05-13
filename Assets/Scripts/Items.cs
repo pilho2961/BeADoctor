@@ -1,4 +1,5 @@
 using Cinemachine;
+using Lean.Pool;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,19 @@ using UnityEngine;
 public class Items : InteractableObject
 {
     public ItemsSO itemData;
+    private Player player;
+    private Inventory inventory;
 
     public Transform playerTransform; // Reference to the player's transform
     public CinemachineVirtualCamera virtualCamera; // Reference to the Cinemachine virtual camera
-    public float interactionDistance = 5f; // Distance within which interaction is allowed
+    public float interactionDistance = 3f; // Distance within which interaction is allowed
     public float fieldOfViewAngle = 60f; // Field of view angle of the camera
 
+    private void Awake()
+    {
+        player = GameObject.Find("Player").GetComponent<Player>();
+        inventory = GameObject.Find("Canvas").transform.Find("PlayerInfoPanel").transform.Find("Inventory").GetComponent<Inventory>();
+    }
 
     private void Update()
     {
@@ -20,11 +28,30 @@ public class Items : InteractableObject
         {
             PopupInteraction();
         }
+        else
+        {
+            PopdownInteraction();
+        }
+
+        if (onPopup)
+        {
+            Interact();
+        }
     }
 
-    public void GetItem()
+    protected override void Interact()
     {
         // Inventory∑Œ ¡§∫∏∏¶ ∫∏≥ª¡‹
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            if (!player.interacting)
+            {
+                print("∏‘±‚");
+                inventory.AddItem(itemData);
+                LeanPool.Despawn(gameObject);
+            }
+        }
     }
 
     public bool CheckPlayerOwned()
@@ -46,6 +73,11 @@ public class Items : InteractableObject
 
     private bool IsNearPlayerAndInView()
     {
+        if (playerTransform == null || virtualCamera == null)
+        {
+            return false;
+        }
+
         // Calculate the direction from this object to the player
         Vector3 directionToPlayer = playerTransform.position - transform.position;
 
@@ -65,7 +97,7 @@ public class Items : InteractableObject
             float angleToPlayer = Vector3.Angle(forwardDirection, directionToPlayer);
 
             // Check if the angle is within the camera's field of view angle
-            if (angleToPlayer <= fieldOfViewAngle / 2f)
+            if (angleToPlayer / 2 >= fieldOfViewAngle)
             {
                 // Item is near player and in view
                 return true;

@@ -16,10 +16,11 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 4fc077e01ca4f9e42b4e3566fb077aa3, type: 3}
   itemDescription: "\uC18C\uC9C0\uD558\uACE0 \uC788\uC73C\uBA74 \uC9C4\uB8CC\uC2E4\uC5D0
     \uCD9C\uC785\uD560 \uC218 \uC788\uB2E4."
+  recoverType: 0
+  recoverValue: 30
   playerOwned: 0
   consumable: 0
-  quantity: 0
-  recoverValue: 0
+  stackable: 0
   togglePlayerOwned: 1
   toggleConsumable: 0
   toggleQuantity: 0
