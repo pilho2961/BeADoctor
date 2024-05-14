@@ -18,10 +18,5 @@ MonoBehaviour:
     \uCD9C\uC785\uD560 \uC218 \uC788\uB2E4."
   recoverType: 0
   recoverValue: 30
-  playerOwned: 0
   consumable: 0
   stackable: 0
-  togglePlayerOwned: 1
-  toggleConsumable: 0
-  toggleQuantity: 0
-  toggleRecoverValue: 0

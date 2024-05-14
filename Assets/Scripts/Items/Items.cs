@@ -18,6 +18,8 @@ public class Items : InteractableObject
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        playerTransform = player.transform;
+        virtualCamera = player.GetComponentInChildren<CinemachineVirtualCamera>();
         inventory = GameObject.Find("Canvas").transform.Find("PlayerInfoPanel").transform.Find("Inventory").GetComponent<Inventory>();
     }
 
@@ -49,7 +51,7 @@ public class Items : InteractableObject
             {
                 print("ащ╠Б");
                 inventory.AddItem(itemData);
-                LeanPool.Despawn(gameObject);
+                //LeanPool.Despawn(gameObject);
                 PopdownInteraction();
             }
         }

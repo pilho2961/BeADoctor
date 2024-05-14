@@ -14,26 +14,20 @@ public class Inventory : MonoBehaviour
     {
         // Get all child objects of the Inventory GameObject with an Image component
         Image[] childImages = GetComponentsInChildren<Image>();
+        slots = new GameObject[childImages.Length - 1];
 
         if (childImages.Length > 0 && childImages[0].transform == transform)
         {
             // Exclude the first Image component if it is attached to this GameObject
-            slots = new GameObject[childImages.Length - 1];
+
             for (int i = 1; i < childImages.Length; i++)
             {
                 slots[i - 1] = childImages[i].gameObject;
             }
         }
-        else
-        {
-            slots = new GameObject[childImages.Length];
-            for (int i = 0; i < childImages.Length; i++)
-            {
-                slots[i] = childImages[i].gameObject;
-            }
-        }
 
         itemData = new ItemsSO[slots.Length];
+        itemQuantities = new int[slots.Length];
     }
 
     private void OnEnable()
@@ -50,6 +44,8 @@ public class Inventory : MonoBehaviour
                 slots[i].GetComponent<InventorySlot>().itemData = itemData[i];
                 slots[i].GetComponent<InventorySlot>().slotIndex = i;
             }
+
+            slots[i].GetComponent<InventorySlot>().Init();
         }
     }
 
@@ -66,6 +62,7 @@ public class Inventory : MonoBehaviour
             if (emptySlotIndex != -1)
             {
                 itemData[emptySlotIndex] = itemSO;
+                itemQuantities[emptySlotIndex]++;
             }
             else
             {
@@ -100,13 +97,32 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(int slotIndex)
     {
-        // Remove itemData for array and sort again to fill the gap
-        for (int i = slotIndex; i < itemData.Length - 1; i++)
+        if (itemData[slotIndex].consumable || itemData[slotIndex].stackable)
         {
-            itemData[i] = itemData[i + 1];
-        }
+            if (itemQuantities[slotIndex] == 0)
+            {
+                for (int i = slotIndex; i < itemData.Length - 1; i++)
+                {
+                    itemData[i] = itemData[i + 1];
+                }
 
-        itemData[itemData.Length - 1] = null;
+                itemData[itemData.Length - 1] = null;
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            // Remove itemData for array and sort again to fill the gap
+            for (int i = slotIndex; i < itemData.Length - 1; i++)
+            {
+                itemData[i] = itemData[i + 1];
+            }
+
+            itemData[itemData.Length - 1] = null;
+        }
     }
 
     public bool CheckPlayerOwnOfficeKey()
