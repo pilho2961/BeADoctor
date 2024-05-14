@@ -50,6 +50,7 @@ public class Items : InteractableObject
             if (!player.interacting)
             {
                 print("ащ╠Б");
+                RandomizingValueOfItem();
                 inventory.AddItem(itemData);
                 //LeanPool.Despawn(gameObject);
                 PopdownInteraction();
@@ -100,5 +101,10 @@ public class Items : InteractableObject
 
         // Item is not near player or not in view
         return false;
+    }
+
+    protected virtual void RandomizingValueOfItem()
+    {
+
     }
 }

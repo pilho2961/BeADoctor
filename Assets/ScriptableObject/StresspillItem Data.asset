@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StresspillItem Data
   m_EditorClassIdentifier: 
   itemName: "\uC815\uCCB4\uBD88\uBA85\uC758 \uC54C\uC57D"
-  itemImage: {fileID: 0}
+  itemImage: {fileID: 21300000, guid: cc1d47cf07758074986de39fa1d4ad70, type: 3}
   itemDescription: "\uC815\uC2E0\uACFC\uC5D0\uC11C \uCC98\uBC29\uD574\uC8FC\uB294
     \uC54C\uC57D\uAC19\uB2E4."
   recoverType: 1
