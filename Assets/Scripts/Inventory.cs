@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
     public ItemsSO[] itemData;
     public int[] itemQuantities;
 
-    private void Awake()
+    public void InventoryInit()
     {
         // Get all child objects of the Inventory GameObject with an Image component
         Image[] childImages = GetComponentsInChildren<Image>();
@@ -45,7 +45,7 @@ public class Inventory : MonoBehaviour
                 slots[i].GetComponent<InventorySlot>().slotIndex = i;
             }
 
-            slots[i].GetComponent<InventorySlot>().Init();
+            slots[i].GetComponent<InventorySlot>().UpdateSlot();
         }
     }
 
@@ -73,9 +73,9 @@ public class Inventory : MonoBehaviour
 
     private int FindEmptySlotIndex()
     {
-        for (int i = 0; i < itemData.Length; i++)
+        for (int i = 0; i < itemQuantities.Length; i++)
         {
-            if (itemData[i] == null)
+            if (itemQuantities[i] == 0)
             {
                 return i;
             }

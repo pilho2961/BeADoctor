@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MoneyItem Data
   m_EditorClassIdentifier: 
   itemName: "\uBC14\uB2E5\uC5D0 \uB5A8\uC5B4\uC9C4 \uB3C8"
-  itemImage: {fileID: 0}
+  itemImage: {fileID: 21300000, guid: 975abbb19cae7d543a96e26aadd30d86, type: 3}
   itemDescription: "\uB204\uAD70\uAC00 \uD758\uB9AC\uACE0 \uAC04 \uB3C8\uC774\uB2E4."
   recoverType: 3
   recoverValue: 1000

@@ -39,6 +39,9 @@ public class UIManager : MonoBehaviour
         currentPanelState = PanelState.None;
         optionPanel.SetActive(false);
         UpdatePanels();
+
+        Inventory inventory = playerInfoPanel.transform.Find("Inventory").GetComponent<Inventory>();
+        inventory.InventoryInit();
     }
 
     private void Update()

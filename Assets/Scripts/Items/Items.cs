@@ -7,8 +7,8 @@ using UnityEngine;
 public class Items : InteractableObject
 {
     public ItemsSO itemData;
-    private Player player;
-    private Inventory inventory;
+    protected Player player;
+    protected Inventory inventory;
 
     public Transform playerTransform; // Reference to the player's transform
     public CinemachineVirtualCamera virtualCamera; // Reference to the Cinemachine virtual camera
@@ -50,7 +50,6 @@ public class Items : InteractableObject
             if (!player.interacting)
             {
                 print("ащ╠Б");
-                RandomizingValueOfItem();
                 inventory.AddItem(itemData);
                 //LeanPool.Despawn(gameObject);
                 PopdownInteraction();
@@ -101,10 +100,5 @@ public class Items : InteractableObject
 
         // Item is not near player or not in view
         return false;
-    }
-
-    protected virtual void RandomizingValueOfItem()
-    {
-
     }
 }

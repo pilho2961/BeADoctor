@@ -19,8 +19,8 @@ public class PlayerStatManager : MonoBehaviour
     public const int maxValue = 100;
     public const int minValue = -100;
     // Money min, max°ª
-    public const int maxMoney = 1000000;
-    public const int minMoney = 0;
+    public const int maxMoney = 2000000000;
+    public const int minMoney = -200000000;
 
     [Header("Player's Status")]
     [SerializeField] private Dictionary<string, int> statValues;

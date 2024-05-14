@@ -20,7 +20,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private Inventory inventory;
 
-    public void Init()
+    public void UpdateSlot()
     {
         if (!initialized)
         {
@@ -34,7 +34,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         itemImage.sprite = itemData.itemImage;
 
 
-        if (inventory.itemData == null || !itemData.consumable)
+        if (itemData == null || !itemData.consumable)
         {
             itemQuantity.gameObject.SetActive(false);
         }
@@ -114,7 +114,73 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         // 아이템 사용에 따른 PlayerStatManager에 반영
         inventory.itemQuantities[slotIndex]--;
-        PlayerStatManager.GetInstance.ResulfOfPlayerAction(itemData.recoverType.ToString(), itemData.recoverValue);
+        if (itemData.recoverType.ToString() == "Money")
+        {
+            if (itemData.itemName == "복권")
+            {
+                int LotteryValue = PickRandomLotteryValue();
+                PlayerStatManager.GetInstance.ResulfOfPlayerAction(itemData.recoverType.ToString(), LotteryValue);
+            }
+            else
+            {
+                int bonusValue = PickRandomBonusValue();
+                PlayerStatManager.GetInstance.ResulfOfPlayerAction(itemData.recoverType.ToString(), itemData.recoverValue + bonusValue);
+            }
+        }
+        else
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction(itemData.recoverType.ToString(), itemData.recoverValue);
+        }
+        PlayerStatUI.instance.UpdateGauge();
         inventory.RemoveItem(slotIndex);
     }
+
+    private int PickRandomBonusValue()
+    {
+        var wrPicker = new WeightedRandom<int>();
+
+        // 아이템 및 가중치 목록 전달
+        wrPicker.Add(
+
+            (-999, 3),
+            (-500, 10),
+            (-300, 15),
+            (-100, 60),
+
+            (0, 100),
+
+            (100, 40),
+            (200, 20),
+            (300, 9),
+            (600, 5),
+            (10000, 1)
+        );
+
+        int randomPick = wrPicker.GetRandomPick();
+
+        return randomPick;
+    }
+
+    private int PickRandomLotteryValue()
+    {
+        var wrPicker = new WeightedRandom<int>();
+
+        // 아이템 및 가중치 목록 전달
+        wrPicker.Add(
+            
+            (0, 0.9778969874),
+            (5000, 0.02),
+            (50000, 0.00066),
+            (100000, 0.000236),
+            (2000000, 0.00005),
+            (20000000, 0.000007),
+            (1450000000, 0.0000000126)
+        );
+
+        int randomPick = wrPicker.GetRandomPick();
+
+        return randomPick;
+    }
 }
+
+
