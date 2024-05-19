@@ -16,7 +16,9 @@ public class Book : MonoBehaviour
     public PatientEnter patientEnter;
     Button closeButton;
 
-    private void Awake()
+    public BookIndex bookIndex;
+
+    private void Start()
     {
         outline = GetComponent<Outline>();
         chair = GameObject.Find("DoctorChair").GetComponent<DoctorChair>();
@@ -25,6 +27,7 @@ public class Book : MonoBehaviour
 
         closeButton = bookContent.GetComponentInChildren<Button>();
         closeButton.onClick.AddListener(CloseBook);
+        bookIndex.Init();
     }
 
     void Update()
@@ -37,13 +40,14 @@ public class Book : MonoBehaviour
             openBookCoroutine = StartCoroutine(OpenBook());
         }
 
-        if (bookContent.activeSelf)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                CloseBook();
-            }
-        }
+        Cursor.lockState = CursorLockMode.Confined;
+        //if (bookContent.activeSelf)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Escape))
+        //    {
+        //        CloseBook();
+        //    }
+        //}
     }
 
     private IEnumerator OpenBook()
@@ -62,8 +66,10 @@ public class Book : MonoBehaviour
     private void CloseBook()
     {
         bookContent.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-
+        if (!patientEnter.patientExist)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         animator.SetTrigger("Close");
         chair.bookOpened = false;
         player.bookOpened = false;

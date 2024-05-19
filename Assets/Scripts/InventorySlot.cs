@@ -12,6 +12,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public int slotIndex;
     public GameObject itemImagePrefab;
+    public GameObject spawnedPrefab;
     private TextMeshProUGUI itemQuantity;
 
     public ItemsSO itemData;
@@ -25,23 +26,31 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!initialized)
         {
             initialized = true;
-            var prefab = LeanPool.Spawn(itemImagePrefab, transform);
+            spawnedPrefab = LeanPool.Spawn(itemImagePrefab, transform);
             inventory = GetComponentInParent<Inventory>();
-            itemImage = prefab.GetComponent<Image>();
-            itemQuantity = prefab.GetComponentInChildren<TextMeshProUGUI>();
+            itemImage = spawnedPrefab.GetComponent<Image>();
+            itemQuantity = spawnedPrefab.GetComponentInChildren<TextMeshProUGUI>();
         }
 
-        itemImage.sprite = itemData.itemImage;
-
-
-        if (itemData == null || !itemData.consumable)
+        if (itemData != null)
         {
-            itemQuantity.gameObject.SetActive(false);
+            itemImage.sprite = itemData.itemImage;
+
+            if (!itemData.consumable)
+            {
+                itemQuantity.gameObject.SetActive(false);
+            }
+            else if (itemData.consumable)
+            {
+                itemQuantity.gameObject.SetActive(true);
+                itemQuantity.text = inventory.itemQuantities[slotIndex].ToString();
+            }
         }
-        else if (itemData != null && itemData.consumable)
+
+        if (inventory.itemQuantities[slotIndex] == 0)
         {
             itemQuantity.gameObject.SetActive(true);
-            itemQuantity.text = inventory.itemQuantities[slotIndex].ToString();
+            spawnedPrefab.SetActive(false);
         }
     }
 

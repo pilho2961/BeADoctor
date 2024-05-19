@@ -50,6 +50,8 @@ public class FlipBook : MonoBehaviour {
     public Image Right;
     public Image RightNext;
     public UnityEvent OnFlip;
+
+    
     float radius1, radius2;
     //Spine Bottom
     Vector3 sb;

@@ -118,7 +118,7 @@ public class UIManager : MonoBehaviour
         else if (currentPanelState == PanelState.None && isOn)
         {
             isOn = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

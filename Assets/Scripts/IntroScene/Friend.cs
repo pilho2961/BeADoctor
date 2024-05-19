@@ -60,6 +60,11 @@ public class Friend : MonoBehaviour
         {
             animator.SetBool("Talk", playerInRange);
         }
+
+        if (!playerInRange)
+        {
+            OnDialogueEnd();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -75,7 +80,6 @@ public class Friend : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            OnDialogueEnd();
         }
     }
 

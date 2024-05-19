@@ -29449,6 +29449,7 @@ MonoBehaviour:
   - {fileID: 4900000, guid: ac044399763bf584ba656a1a7db213ba, type: 3}
   - {fileID: 4900000, guid: 20bfef457c897fa4785967e91eadadb8, type: 3}
   portal: {fileID: 1498680028}
+  officeCardKey: {fileID: 11400000, guid: f7b40ba48b902144f915b62269f05dae, type: 2}
 --- !u!1 &5987059518991485825
 GameObject:
   m_ObjectHideFlags: 0

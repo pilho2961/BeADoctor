@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class President : MonoBehaviour
 {
+    private Inventory inventory;
     Player player;
     Animator animator;
     bool talking;
@@ -29,6 +30,9 @@ public class President : MonoBehaviour
     [Header("대화 후 생성할 포탈")]
     [SerializeField] private GameObject portal;
 
+    [Header("진료실 카드키")]
+    [SerializeField] private ItemsSO officeCardKey;
+
     public delegate void DialogueEndAction();
 
     public static event DialogueEndAction OnDialogueEndEvent;
@@ -38,6 +42,7 @@ public class President : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<Player>();
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        inventory = GameObject.Find("Canvas").transform.Find("PlayerInfoPanel").transform.Find("Inventory").GetComponent<Inventory>();
     }
 
     private void Start()
@@ -185,6 +190,8 @@ public class President : MonoBehaviour
             talking = false;
 
             DirectoryManager.GetInstance.ChooseDirectoryByCondition();
+            // 열쇠를 인벤토리에 추가
+            inventory.AddItem(officeCardKey);
             timerCoroutine = StartCoroutine(StartTimer());
         }
         // Call your other method here

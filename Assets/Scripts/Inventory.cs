@@ -1,3 +1,4 @@
+using Lean.Pool;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,13 @@ public class Inventory : MonoBehaviour
     public GameObject[] slots;
     public ItemsSO[] itemData;
     public int[] itemQuantities;
+
+    private bool itemRemoved;
+
+    private void Awake()
+    {
+        itemRemoved = false;
+    }
 
     public void InventoryInit()
     {
@@ -32,6 +40,19 @@ public class Inventory : MonoBehaviour
 
     private void OnEnable()
     {
+        if (itemRemoved)
+        {
+            itemRemoved = false;
+
+            for (int i = FindEmptySlotIndex(); i < itemQuantities.Length - 1; i++)
+            {
+                itemQuantities[i] = itemQuantities[i + 1];
+            }
+
+            slots[FindEmptySlotIndex()].GetComponent<InventorySlot>().itemData = null;
+            slots[FindEmptySlotIndex()].GetComponent<InventorySlot>().UpdateSlot();
+        }
+
         // 얻은 아이템 정보를 아이템 창에 순서대로 띄우기
         for (int i = 0; i < itemData.Length; i++)
         {
@@ -97,16 +118,19 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(int slotIndex)
     {
+        if (itemData[slotIndex] == null) { return; }
+
         if (itemData[slotIndex].consumable || itemData[slotIndex].stackable)
         {
-            if (itemQuantities[slotIndex] == 0)
+            if (itemQuantities[slotIndex] <= 0)
             {
                 for (int i = slotIndex; i < itemData.Length - 1; i++)
                 {
                     itemData[i] = itemData[i + 1];
-                }
+                    itemRemoved = true;
 
-                itemData[itemData.Length - 1] = null;
+                    itemData[itemData.Length - 1] = null;
+                }
             }
             else
             {
@@ -119,9 +143,9 @@ public class Inventory : MonoBehaviour
             for (int i = slotIndex; i < itemData.Length - 1; i++)
             {
                 itemData[i] = itemData[i + 1];
-            }
 
-            itemData[itemData.Length - 1] = null;
+                itemData[itemData.Length - 1] = null;
+            }
         }
     }
 
