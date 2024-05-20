@@ -7976,6 +7976,7 @@ GameObject:
   - component: {fileID: 490079650}
   - component: {fileID: 490079652}
   - component: {fileID: 490079651}
+  - component: {fileID: 490079653}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -8137,6 +8138,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &490079653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490079649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964a49530d3d15746a1c352c49466a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 709744151}
+  text: {fileID: 490079651}
 --- !u!1 &519858369
 GameObject:
   m_ObjectHideFlags: 0
@@ -14732,7 +14747,7 @@ GameObject:
   - component: {fileID: 893120774}
   m_Layer: 0
   m_Name: DialogManager
-  m_TagString: Untagged
+  m_TagString: Persistent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

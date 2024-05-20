@@ -106,8 +106,6 @@ public class Patient : MonoBehaviour
 
     private IEnumerator GetOut()
     {
-
-
         //dialog.instance.dialog_cycles[27].info[0].name = "환자";
         //dialog.instance.dialog_cycles[28].info[0].name = "신봉하는 환자";
         //dialog.instance.dialog_cycles[29].info[0].name = "짜증난 환자";

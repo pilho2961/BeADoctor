@@ -13,9 +13,10 @@ public class TitleSceneController : MonoBehaviour
     [SerializeField] private GameObject trailCamera;
 
     private void Awake()
-    {     
+    {
         startGameButton.onClick.AddListener(StartGame);
         quitButton.onClick.AddListener(QuitGame);
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Update()

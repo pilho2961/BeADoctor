@@ -76,7 +76,7 @@ public class PlayerStatManager : MonoBehaviour
 
         foreach (ValueType value in Enum.GetValues(typeof(ValueType)))
         {
-            statValues.Add(value.ToString(), 0); // Set default value to 0
+            statValues.Add(value.ToString(), 0); // �ʱⰪ 0
         }
 
         // Accessing values by name

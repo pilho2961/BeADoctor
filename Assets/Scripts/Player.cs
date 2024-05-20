@@ -33,13 +33,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-
     void Update()
     {
+        if (GameManager.GetInstance.gameOver) { return; }
+
         if (NPCDialogManager.Instance != null && NPCDialogManager.Instance.dialogIsPlaying || bookOpened)
         {
             return;

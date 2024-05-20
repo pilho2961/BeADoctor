@@ -46,6 +46,11 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.GetInstance.gameOver)
+        {
+            return;
+        }
+
         UpdatePanels();
     }
 
@@ -98,7 +103,7 @@ public class UIManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    currentPanelState = PanelState.OnOptionPanel;
+                    //currentPanelState = PanelState.OnOptionPanel;W
                 }
                 else if (Input.GetKeyDown(KeyCode.Tab))
                 {

@@ -105,6 +105,8 @@ public class PlayerChoice : MonoBehaviour
                 -(int)(currentPatient.GetComponent<Patient>().patienceCoefficient * currentPatient.GetComponent<Patient>().timeSpentToDiagnose));
         }
 
+        EarnMoney();
+
         currentPatient.GetComponent<Patient>().diagnoseDone = true;
         currentPatient = null;
     }
@@ -135,6 +137,8 @@ public class PlayerChoice : MonoBehaviour
             PlayerStatManager.GetInstance.ResulfOfPlayerAction("SocialReputation",
                 (int)(currentPatient.GetComponent<Patient>().patienceCoefficient * currentPatient.GetComponent<Patient>().timeSpentToDiagnose));
         }
+
+        EarnMoney();
 
         currentPatient.GetComponent<Patient>().diagnoseDone = true;
         currentPatient = null;
@@ -244,6 +248,24 @@ public class PlayerChoice : MonoBehaviour
             {
                 buttonList[i].SetActive(false);
             }
+        }
+    }
+
+    private int initialSalary = 20;
+    private float salaryCoefficient = 1.2f;
+    private void EarnMoney()
+    {
+        if (PlayerPrefs.GetFloat("patientCount") < 30)
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("Money", initialSalary);
+        }
+        else if (PlayerPrefs.GetFloat("patientCount") >= 30 && PlayerPrefs.GetFloat("patientCount") < 100)
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("Money", (int)(initialSalary * salaryCoefficient));
+        }
+        else
+        {
+            PlayerStatManager.GetInstance.ResulfOfPlayerAction("Money", (int)(initialSalary * salaryCoefficient * salaryCoefficient));
         }
     }
 }
