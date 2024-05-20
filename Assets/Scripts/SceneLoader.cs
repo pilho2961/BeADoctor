@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
@@ -271,8 +272,10 @@ public class SceneLoader : MonoBehaviour
                 Transform fromPresidentPosition = roomDoor.transform.Find("FromPresidenttPosition");
                 if (fromPresidentPosition != null)
                 {
+                    player.GetComponent<NavMeshAgent>().enabled = false;
                     player.transform.position = fromPresidentPosition.position;
                     player.GetComponent<Player>().yRotation = 0f;
+                    player.GetComponent<NavMeshAgent>().enabled = true;
                 }
                 else
                 {

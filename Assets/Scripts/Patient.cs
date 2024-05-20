@@ -81,7 +81,7 @@ public class Patient : MonoBehaviour
 
         // 환자가 들어와서 진료끝날때까지 걸린 시간 체크해서 평판에 추가
         timeSpentToDiagnose += Time.deltaTime;
-        print(timeSpentToDiagnose);
+        //print(timeSpentToDiagnose);
     }
 
     public void StartTalking()

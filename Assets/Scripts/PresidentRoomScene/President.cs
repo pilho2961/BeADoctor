@@ -144,7 +144,16 @@ public class President : MonoBehaviour
 
     public void StartTalking()
     {
-        NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[playerMeetCount], npcName, player.playerName);
+        if (playerMeetCount <= 2)
+        {
+            NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[playerMeetCount], npcName, player.playerName);
+
+        }
+        else
+        {
+            NPCDialogManager.GetInstance.EnterDialogMode(inkJSON[4], npcName, player.playerName);
+        }
+
         talking = true;
         talked = true;
     }
@@ -190,8 +199,12 @@ public class President : MonoBehaviour
             talking = false;
 
             DirectoryManager.GetInstance.ChooseDirectoryByCondition();
-            // 열쇠를 인벤토리에 추가
-            inventory.AddItem(officeCardKey);
+
+            if (playerMeetCount <= 1)
+            {
+                // 열쇠를 인벤토리에 추가
+                inventory.AddItem(officeCardKey);
+            }
             timerCoroutine = StartCoroutine(StartTimer());
         }
         // Call your other method here

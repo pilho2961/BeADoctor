@@ -98,6 +98,12 @@ public class NPCDialogManager : MonoBehaviour
         {
             currentStory.variablesState["playerName"] = playerName;
         }
+
+        if (currentStory.variablesState["playerSocialReputation"] != null)
+        {
+            currentStory.variablesState["playerSocialReputation"] 
+                = PlayerStatManager.GetInstance.StatValues[PlayerStatManager.ValueType.SocialReputation.ToString()];
+        }
         ContinueStory(callback);
     }
 

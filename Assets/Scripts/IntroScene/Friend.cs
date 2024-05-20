@@ -20,7 +20,7 @@ public class Friend : MonoBehaviour
 
     private void Awake()
     {
-        SetBool("PlayedOnce", false);
+        //SetBool("PlayedOnce", false);
         if (GetBool("PlayedOnce"))
         {
             gameObject.SetActive(false);

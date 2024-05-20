@@ -27,6 +27,10 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         playerCollider = GetComponent<Collider>();
+        if (PlayerPrefs.GetString("playerName") != null)
+        {
+            playerName = PlayerPrefs.GetString("playerName");
+        }
     }
 
     void Start()
