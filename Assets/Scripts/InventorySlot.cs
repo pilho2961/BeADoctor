@@ -49,8 +49,12 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (inventory.itemQuantities[slotIndex] == 0)
         {
-            itemQuantity.gameObject.SetActive(true);
+            itemQuantity.gameObject.SetActive(false);
             spawnedPrefab.SetActive(false);
+        }
+        else
+        {
+            spawnedPrefab.SetActive(true);
         }
     }
 

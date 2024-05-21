@@ -61,7 +61,7 @@ public class Friend : MonoBehaviour
             animator.SetBool("Talk", playerInRange);
         }
 
-        if (!playerInRange)
+        if (!playerInRange && !portal.activeSelf)
         {
             OnDialogueEnd();
         }

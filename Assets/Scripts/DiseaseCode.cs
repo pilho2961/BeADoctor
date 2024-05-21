@@ -33,8 +33,6 @@ public class DiseaseInfo
     public string symptom0 { get; set; }
     public string symptom1 { get; set; }
     public string chat {  get; set; }
-
-
 }
 
 public static class DiseaseDictionary

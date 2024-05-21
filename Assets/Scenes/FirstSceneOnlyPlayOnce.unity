@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6484247, g: 0.66767615, b: 0.5142153, a: 1}
+  m_IndirectSpecularColor: {r: 0.6484247, g: 0.66767627, b: 0.5142152, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6673,6 +6673,56 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00079164654, y: 0.36924842, z: 0.065182924}
     m_Extent: {x: 0.08541306, y: 0.08700606, z: 0.10575515}
   m_DirtyAABB: 0
+--- !u!1 &880559401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 880559402}
+  - component: {fileID: 880559403}
+  m_Layer: 0
+  m_Name: LotteryItem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &880559402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880559401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.767, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1167524337}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &880559403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880559401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d52b4fcd220e864aa04a9c2d2b3630b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactGuide: {fileID: 0}
+  itemData: {fileID: 11400000, guid: 1456c1f1680108c40a3410a7cef267c8, type: 2}
+  playerTransform: {fileID: 0}
+  virtualCamera: {fileID: 0}
+  interactionDistance: 3
+  fieldOfViewAngle: 70
 --- !u!1 &883596082
 GameObject:
   m_ObjectHideFlags: 0
@@ -9547,7 +9597,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1167524337}
-  - component: {fileID: 1167524338}
   - component: {fileID: 1167524336}
   - component: {fileID: 1167524335}
   - component: {fileID: 1167524339}
@@ -9628,26 +9677,9 @@ Transform:
   - {fileID: 179471438}
   - {fileID: 1064756118}
   - {fileID: 1010991343}
+  - {fileID: 880559402}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1167524338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1167524332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d52b4fcd220e864aa04a9c2d2b3630b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactGuide: {fileID: 0}
-  itemData: {fileID: 11400000, guid: 1456c1f1680108c40a3410a7cef267c8, type: 2}
-  playerTransform: {fileID: 0}
-  virtualCamera: {fileID: 0}
-  interactionDistance: 3
-  fieldOfViewAngle: 70
 --- !u!208 &1167524339
 NavMeshObstacle:
   m_ObjectHideFlags: 0
