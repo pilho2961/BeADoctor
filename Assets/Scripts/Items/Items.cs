@@ -51,8 +51,10 @@ public class Items : InteractableObject
             {
                 print("ащ╠Б");
                 inventory.AddItem(itemData);
-                //LeanPool.Despawn(gameObject);
                 PopdownInteraction();
+
+                gameObject.SetActive(false);
+                //LeanPool.Despawn(gameObject);
             }
         }
     }
