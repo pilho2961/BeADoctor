@@ -60,7 +60,10 @@ public class DoctorChair : InteractableObject
                 if (DayNightCycle.Instance != null)
                 {
                     originalTimeflow = DayNightCycle.Instance.sunRotationSpeed;
-                    DayNightCycle.Instance.sunRotationSpeed = speedupTimeflow;
+
+                    // TODO: 임시 테스트용 시간 속도
+                    //DayNightCycle.Instance.sunRotationSpeed = speedupTimeflow;
+                    DayNightCycle.Instance.sunRotationSpeed = 0.4f;
                 }
 
                 player.interacting = true;
@@ -92,17 +95,16 @@ public class DoctorChair : InteractableObject
         {
             interactGuide.SetActive(true);
 
-            if (patientExistence.patientExist)
-            {
-                interactGuideText.text = "[G] 진료 끝내기";
-            }
-            else
-            {
-                interactGuideText.text = "[G] 진료 끝내기\n[LMB(좌클릭)] 다음 환자 부르기";
-            }
-
-            //print("진료를 끝내려면 G키를 누르세요.\n다음 환자를 부르려면 LMB(좌측 마우스버튼)를 클릭하세요.");
             onPopup = true;
+        }
+
+        if (patientExistence.patientExist)
+        {
+            interactGuideText.text = "[G] 진료 끝내기";
+        }
+        else
+        {
+            interactGuideText.text = "[G] 진료 끝내기\n[LMB(좌클릭)] 다음 환자 부르기";
         }
     }
 

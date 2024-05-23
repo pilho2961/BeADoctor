@@ -94,6 +94,8 @@ namespace ClockSample
             //elapsedSeconds += Mathf.RoundToInt(Time.deltaTime * flowSpeed);
             elapsedSeconds += Time.deltaTime * flowSpeed;
 
+            SyncWithOutsideTime();
+
             // Calculate overflow minutes and hours
             int overflowMinutes = (int)(elapsedSeconds / 60);
             elapsedSeconds %= 60;
@@ -103,6 +105,23 @@ namespace ClockSample
             elapsedHours = (elapsedHours + overflowHours) % 24; // Hours roll over every 24 hours
 
             //Debug.Log("Elapsed time: " + elapsedHours + ":" + elapsedMinutes + ":" + elapsedSeconds);
+        }
+
+        bool runningFast = false;
+        private void SyncWithOutsideTime()
+        {
+            if (DayNightCycle.Instance.sunRotationSpeed >= 0.3f && !runningFast)
+            {
+                runningFast = true;
+                elapsedSeconds -= Time.deltaTime * flowSpeed;
+                elapsedSeconds += Time.deltaTime * (flowSpeed * 40);
+            }
+            else if (DayNightCycle.Instance.sunRotationSpeed < 0.3f && runningFast)
+            {
+                runningFast = false;
+                elapsedSeconds -= Time.deltaTime * (flowSpeed * 40);
+                elapsedSeconds += Time.deltaTime * flowSpeed;
+            }
         }
 
         private void OnDestroy()

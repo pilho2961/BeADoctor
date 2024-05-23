@@ -125,6 +125,10 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void UseItem()
     {
+        // 사운드
+        SoundManager.instance.SetSoundPosition(true, gameObject.transform.position);
+        SoundManager.instance.PlaySound("UseItem");
+
         // 아이템 사용에 따른 PlayerStatManager에 반영
         inventory.itemQuantities[slotIndex]--;
         if (itemData.recoverType.ToString() == "Money")

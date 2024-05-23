@@ -54,6 +54,10 @@ public class Friend : MonoBehaviour
         {
             talking = true;
             animator.SetBool("Talk", playerInRange);
+
+            SoundManager.instance.SetSoundPosition(false, gameObject.transform.position);
+            SoundManager.instance.PlaySound("Friend");
+
             NPCDialogManager.GetInstance.EnterDialogMode(inkJSON, npcName, player.playerName);
         }
         else if (!playerInRange)

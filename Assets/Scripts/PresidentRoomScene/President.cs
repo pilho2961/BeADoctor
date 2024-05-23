@@ -67,7 +67,7 @@ public class President : MonoBehaviour
             StartCoroutine(SitSofa());
         }
 
-        if (timer > 20 && timerCoroutine != null)
+        if (timer > 40 && timerCoroutine != null)
         {
             StartCoroutine(Horror());
             StopCoroutine(timerCoroutine);

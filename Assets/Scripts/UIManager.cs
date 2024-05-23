@@ -80,6 +80,8 @@ public class UIManager : MonoBehaviour
 
                 if (playerInfoPanel.activeSelf && Input.GetKeyDown(KeyCode.Tab))
                 {
+                    SoundManager.instance.SetSoundPosition(true, gameObject.transform.position);
+                    SoundManager.instance.PlaySound("CloseInventory");
                     currentPanelState = PanelState.None;
                 }
 
@@ -107,6 +109,8 @@ public class UIManager : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.Tab))
                 {
+                    SoundManager.instance.SetSoundPosition(true, gameObject.transform.position);
+                    SoundManager.instance.PlaySound("OpenInventory");
                     currentPanelState = PanelState.OnPlayerInfoPanel;
                 }
 

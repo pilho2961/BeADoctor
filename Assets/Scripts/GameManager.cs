@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
             || socialGaugeValue <= 0)
         {
             //°ÔÀÓ¿À¹ö¾À
-            print("GameOver");
+            //print("GameOver");
             gameOver = true;
         }
     }

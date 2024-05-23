@@ -35,15 +35,30 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.GetInstance.gameOver) { return; }
+        if (GameManager.GetInstance.gameOver) 
+        { 
+            if (SoundManager.instance.IsPlaying("WalkSound"))
+            {
+                SoundManager.instance.StopSound("WalkSound");
+            }
+            return; 
+        }
 
         if (NPCDialogManager.Instance != null && NPCDialogManager.Instance.dialogIsPlaying || bookOpened)
         {
+            if (SoundManager.instance.IsPlaying("WalkSound"))
+            {
+                SoundManager.instance.StopSound("WalkSound");
+            }
             return;
         }
 
         if (UIManager.Instance.isOn)
         {
+            if (SoundManager.instance.IsPlaying("WalkSound"))
+            {
+                SoundManager.instance.StopSound("WalkSound");
+            }
             return;
         }
 
@@ -53,6 +68,10 @@ public class Player : MonoBehaviour
         }
         else
         {
+            if (SoundManager.instance.IsPlaying("WalkSound"))
+            {
+                SoundManager.instance.StopSound("WalkSound");
+            }
             OnlyRotating();
         }
     }
@@ -82,6 +101,17 @@ public class Player : MonoBehaviour
 
         // Apply movement
         playerBody.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.World);
+
+        // Walking Sound
+        if (moveDirection.magnitude > 0.2f)
+        {
+            SoundManager.instance.SetSoundPosition(true, playerBody.position);
+            SoundManager.instance.PlaySound("WalkSound");
+        }
+        else if (moveDirection.magnitude < 0.2f && SoundManager.instance.IsPlaying("WalkSound"))
+        {
+            SoundManager.instance.StopSound("WalkSound");
+        }
     }
 
     private void OnlyRotating()

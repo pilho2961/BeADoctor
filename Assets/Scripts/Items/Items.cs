@@ -49,12 +49,17 @@ public class Items : InteractableObject
         {
             if (!player.interacting)
             {
-                print("줍기");
+                //print("줍기");
+                SoundManager.instance.SetSoundPosition(false, gameObject.transform.position);
+                SoundManager.instance.PlaySound("EatItem");
                 inventory.AddItem(itemData);
                 PopdownInteraction();
 
-                gameObject.SetActive(false);
-                //LeanPool.Despawn(gameObject);
+                if (itemData.itemName != "복권")
+                {
+                    gameObject.SetActive(false);
+                    //LeanPool.Despawn(gameObject);
+                }
             }
         }
     }
