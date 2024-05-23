@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
@@ -147,6 +148,10 @@ public class Inventory : MonoBehaviour
                 itemData[itemData.Length - 1] = null;
             }
         }
+
+        UIManager.Instance.OpenInfoPanel();
+        UIManager.Instance.CloseInfoPanel();
+        UIManager.Instance.OpenInfoPanel();
     }
 
     public bool CheckPlayerOwnOfficeKey()

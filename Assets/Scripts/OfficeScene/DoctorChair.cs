@@ -94,17 +94,18 @@ public class DoctorChair : InteractableObject
         if (!onPopup)
         {
             interactGuide.SetActive(true);
-
+            interactGuideText.text = "[G] 진료 끝내기";
             onPopup = true;
         }
 
-        if (patientExistence.patientExist)
+
+        if (interactGuideText.text.Contains("\n[LMB(좌클릭)] 다음 환자 부르기") && patientExistence.patientExist)
         {
-            interactGuideText.text = "[G] 진료 끝내기";
+            RemoveGuideText("\n[LMB(좌클릭)] 다음 환자 부르기");
         }
-        else
+        else if (!patientExistence.patientExist && !interactGuideText.text.Contains("\n[LMB(좌클릭)] 다음 환자 부르기"))
         {
-            interactGuideText.text = "[G] 진료 끝내기\n[LMB(좌클릭)] 다음 환자 부르기";
+            AddGuideText("\n[LMB(좌클릭)] 다음 환자 부르기");
         }
     }
 
@@ -121,7 +122,7 @@ public class DoctorChair : InteractableObject
             {
                 openBookGuideText = true;
 
-                AddGuideText("[Space] 진료 가이드 서적 열기");
+                AddGuideText("\n[Space] 진료 가이드 서적 열기");
             }
         }
         else
@@ -131,7 +132,7 @@ public class DoctorChair : InteractableObject
             {
                 openBookGuideText = false;
 
-                RemoveGuideText("[Space] 진료 가이드 서적 열기");
+                RemoveGuideText("\n[Space] 진료 가이드 서적 열기");
             }
         }
     }

@@ -33,6 +33,7 @@ public class InteractableObject : MonoBehaviour
         {
             //print("ÆË¾÷ ÇØÃ¼");
             interactGuide.SetActive(false);
+            interactGuideText.text = "";
             onPopup = false;
         }
     }

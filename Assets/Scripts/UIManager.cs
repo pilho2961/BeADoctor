@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class UIManager : MonoBehaviour
 
         Inventory inventory = playerInfoPanel.transform.Find("Inventory").GetComponent<Inventory>();
         inventory.InventoryInit();
+        SceneLoader.OnSceneLoadedEvent += OpenInfoPanel;
+        SceneLoader.OnSceneLoadedEvent += CloseInfoPanel;
     }
 
     private void Update()

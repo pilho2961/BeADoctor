@@ -116,9 +116,10 @@ public class Player : MonoBehaviour
 
     private void OnlyRotating()
     {
+        float halfSensitivity = mouseSensitivity / 2;
         // Mouse Input
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * halfSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * halfSensitivity * Time.deltaTime;
 
         yRotation += mouseX;
 
