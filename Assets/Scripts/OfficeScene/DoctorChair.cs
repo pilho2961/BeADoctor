@@ -62,8 +62,8 @@ public class DoctorChair : InteractableObject
                     originalTimeflow = DayNightCycle.Instance.sunRotationSpeed;
 
                     // TODO: 임시 테스트용 시간 속도
-                    //DayNightCycle.Instance.sunRotationSpeed = speedupTimeflow;
-                    DayNightCycle.Instance.sunRotationSpeed = 0.4f;
+                    DayNightCycle.Instance.sunRotationSpeed = speedupTimeflow;
+                    //DayNightCycle.Instance.sunRotationSpeed = 0.4f;
                 }
 
                 player.interacting = true;
